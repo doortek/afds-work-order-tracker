@@ -1,1 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AFDS Admin</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #171717;
+      --red: #c62828;
+      --red-dark: #9f1f1f;
+      --background: #f5f6f8;
+      --white: #ffffff;
+      --text: #202124;
+      --secondary: #6b7280;
+      --border: #e2e5e9;
+      --green: #15805c;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      background: var(--background);
+      color: var(--text);
+    }
+
+    .app {
+      width: 100%;
+      max-width: 520px;
+      min-height: 100vh;
+      margin: auto;
+      background: var(--white);
+    }
+
+    .topbar {
+      padding: 25px 26px 20px;
+      background: var(--black);
+      border-bottom: 5px solid var(--red);
+    }
+
+    .brand {
+      color: white;
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      margin-top: 5px;
+      color: #d1d5db;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+    }
+
+    .login-wrapper {
+      padding: 48px 20px;
+    }
+
+    .login-card {
+      padding: 28px 24px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.06);
+    }
+
+    .admin-icon {
+      width: 55px;
+      height: 55px;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fceaea;
+      border-radius: 50%;
+      font-size: 24px;
+    }
+
+    .title {
+      margin: 0;
+      text-align: center;
+      color: var(--black);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .description {
+      margin: 8px 0 28px;
+      text-align: center;
+      color: var(--secondary);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--black);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .5px;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 50px;
+      padding: 0 14px;
+      border: 1px solid #cfd5dd;
+      border-radius: 8px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .form-input:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(198,40,40,.08);
+    }
+
+    .login-button {
+      width: 100%;
+      height: 50px;
+      border: none;
+      border-radius: 8px;
+      background: var(--red);
+      color: white;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .login-button:hover {
+      background: var(--red-dark);
+    }
+
+    .login-button:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      margin-bottom: 16px;
+      padding: 11px 12px;
+      border-radius: 7px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .message.error {
+      display: block;
+      background: #fff0ee;
+      color: #a81c13;
+    }
+
+    .admin-panel {
+      display: none;
+      padding: 25px 18px 40px;
+    }
+
+    .welcome-card {
+      padding: 22px;
+      background: white;
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--red);
+      border-radius: 11px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    }
+
+    .welcome-label {
+      color: var(--secondary);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .6px;
+    }
+
+    .welcome-name {
+      margin-top: 5px;
+      color: var(--black);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .authorized {
+      margin-top: 12px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .coming {
+      margin-top: 20px;
+      padding: 22px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      text-align: center;
+      color: var(--secondary);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .logout-button {
+      width: 100%;
+      height: 44px;
+      margin-top: 18px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      color: var(--black);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .footer {
+      padding: 20px;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      ADVANCED FIRE DOOR SYSTEMS
+    </div>
+
+    <div class="subtitle">
+      ADMIN PORTAL
+    </div>
+  </header>
+
+
+  <!-- LOGIN -->
+
+  <section
+    id="loginSection"
+    class="login-wrapper"
+  >
+
+    <div class="login-card">
+
+      <div class="admin-icon">
+        🔐
+      </div>
+
+      <h1 class="title">
+        AFDS Admin
+      </h1>
+
+      <p class="description">
+        Authorized personnel only.
+        Sign in to manage work orders.
+      </p>
+
+
+      <div
+        id="message"
+        class="message"
+      ></div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          EMAIL
+        </label>
+
+        <input
+          id="email"
+          class="form-input"
+          type="email"
+          autocomplete="username"
+          placeholder="Email address"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          PASSWORD
+        </label>
+
+        <input
+          id="password"
+          class="form-input"
+          type="password"
+          autocomplete="current-password"
+          placeholder="Password"
+        >
+
+      </div>
+
+
+      <button
+        id="loginButton"
+        class="login-button"
+      >
+        SIGN IN
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ADMIN PANEL -->
+
+  <section
+    id="adminPanel"
+    class="admin-panel"
+  >
+
+    <div class="welcome-card">
+
+      <div class="welcome-label">
+        AFDS ADMINISTRATOR
+      </div>
+
+      <div
+        id="adminName"
+        class="welcome-name"
+      >
+        AFDS Admin
+      </div>
+
+      <div class="authorized">
+        ● Authorized Access
+      </div>
+
+
+      <div class="coming">
+
+        Admin access is working.
+
+        <br><br>
+
+        Next we will add:
+
+        <br>
+
+        <strong>Add New Work Order</strong>
+
+        <br>
+
+        <strong>Update Work Order Status</strong>
+
+      </div>
+
+
+      <button
+        id="logoutButton"
+        class="logout-button"
+      >
+        SIGN OUT
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <div class="footer">
+    Advanced Fire Door Systems • Secure Administration
+  </div>
+
+</div>
+
+
+<script type="module">
+
+import {
+  createClient
+}
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+/* ==========================
+   SUPABASE
+========================== */
+
+const SUPABASE_URL =
+  "https://pzqehkljifozdcntkphv.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_r40N0HlOLqupAvlfeqPI-w_HZy81xjM";
+
+
+const supabase =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* ==========================
+   ELEMENTS
+========================== */
+
+const loginSection =
+  document.getElementById(
+    "loginSection"
+  );
+
+const adminPanel =
+  document.getElementById(
+    "adminPanel"
+  );
+
+const message =
+  document.getElementById(
+    "message"
+  );
+
+const loginButton =
+  document.getElementById(
+    "loginButton"
+  );
+
+
+/* ==========================
+   ERROR
+========================== */
+
+function showError(text) {
+
+  message.textContent = text;
+  message.className =
+    "message error";
+}
+
+
+function clearError() {
+
+  message.textContent = "";
+  message.className =
+    "message";
+}
+
+
+/* ==========================
+   VERIFY ADMIN
+========================== */
+
+async function verifyAdmin(user) {
+
+  const {
+    data,
+    error
+  } =
+    await supabase
+      .from("admin_users")
+      .select(
+        "name, active"
+      )
+      .eq(
+        "user_id",
+        user.id
+      )
+      .eq(
+        "active",
+        true
+      )
+      .maybeSingle();
+
+
+  if (
+    error ||
+    !data
+  ) {
+
+    await supabase
+      .auth
+      .signOut();
+
+    showError(
+      "This account is not authorized for AFDS Admin."
+    );
+
+    return false;
+  }
+
+
+  document
+    .getElementById(
+      "adminName"
+    )
+    .textContent =
+      data.name ||
+      "AFDS Admin";
+
+
+  loginSection.style.display =
+    "none";
+
+  adminPanel.style.display =
+    "block";
+
+
+  return true;
+}
+
+
+/* ==========================
+   LOGIN
+========================== */
+
+async function login() {
+
+  clearError();
+
+
+  const email =
+    document
+      .getElementById(
+        "email"
+      )
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById(
+        "password"
+      )
+      .value;
+
+
+  if (
+    !email ||
+    !password
+  ) {
+
+    showError(
+      "Please enter your email and password."
+    );
+
+    return;
+  }
+
+
+  loginButton.disabled =
+    true;
+
+  loginButton.textContent =
+    "SIGNING IN...";
+
+
+  const {
+    data,
+    error
+  } =
+    await supabase
+      .auth
+      .signInWithPassword({
+        email,
+        password
+      });
+
+
+  loginButton.disabled =
+    false;
+
+  loginButton.textContent =
+    "SIGN IN";
+
+
+  if (
+    error ||
+    !data.user
+  ) {
+
+    showError(
+      "Invalid email or password."
+    );
+
+    return;
+  }
+
+
+  await verifyAdmin(
+    data.user
+  );
+}
+
+
+/* ==========================
+   LOGIN BUTTON
+========================== */
+
+loginButton
+  .addEventListener(
+    "click",
+    login
+  );
+
+
+document
+  .getElementById(
+    "password"
+  )
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Enter"
+      ) {
+
+        login();
+
+      }
+
+    }
+  );
+
+
+/* ==========================
+   LOGOUT
+========================== */
+
+document
+  .getElementById(
+    "logoutButton"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      await supabase
+        .auth
+        .signOut();
+
+
+      adminPanel.style.display =
+        "none";
+
+
+      loginSection.style.display =
+        "block";
+
+
+      document
+        .getElementById(
+          "password"
+        )
+        .value =
+          "";
+
+    }
+  );
+
+
+/* ==========================
+   CHECK EXISTING SESSION
+========================== */
+
+async function checkSession() {
+
+  const {
+    data: {
+      session
+    }
+  } =
+    await supabase
+      .auth
+      .getSession();
+
+
+  if (
+    session &&
+    session.user
+  ) {
+
+    await verifyAdmin(
+      session.user
+    );
+
+  }
+}
+
+
+checkSession();
+
+</script>
+
+</body>
+</html>
