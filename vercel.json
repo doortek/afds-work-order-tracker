@@ -5,7 +5,11 @@
       "destination": "/admin.html"
     },
     {
-      "source": "/(.*)",
+      "source": "/admin/",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/((?!admin).*)",
       "destination": "/index.html"
     }
   ]
