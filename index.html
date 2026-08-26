@@ -18,6 +18,1432 @@
   --text:#202124;
   --secondary:#6b7280;
   --border:#e2e5e9;
+
+  --green:#15805c;
+  --green-light:#eaf8f1;
+
+  --orange:#c66a00;
+  --orange-light:#fff5e6;
+
+  --purple:#7c3aed;
+  --purple-light:#f5f0ff;
+}
+
+body {
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:var(--background);
+  color:var(--text);
+}
+
+button,input,select,textarea { font:inherit; }
+
+.hidden {
+  display:none !important;
+}
+
+.app {
+  width:100%;
+  max-width:600px;
+  min-height:100vh;
+  margin:auto;
+  background:white;
+}
+
+.topbar {
+  padding:24px 24px 19px;
+  background:var(--black);
+  border-bottom:5px solid var(--red);
+}
+
+.brand {
+  color:white;
+  font-size:20px;
+  font-weight:800;
+}
+
+.subtitle {
+  margin-top:4px;
+  color:#d1d5db;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1.4px;
+}
+
+.screen {
+  padding:24px 18px 34px;
+}
+
+.login-card,
+.card,
+.admin-card {
+  background:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:0 4px 16px rgba(0,0,0,.045);
+}
+
+.login-card {
+  padding:26px 22px;
+}
+
+.login-icon {
+  width:52px;
+  height:52px;
+  margin:0 auto 15px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius:50%;
+  background:#fceaea;
+  font-size:23px;
+}
+
+.title {
+  margin:0;
+  text-align:center;
+  font-size:22px;
+  font-weight:800;
+}
+
+.subtitle-text {
+  margin:8px 0 24px;
+  text-align:center;
+  color:var(--secondary);
+  font-size:13px;
+  line-height:1.45;
+}
+
+.form-group { margin-bottom:16px; }
+
+.form-label {
+  display:block;
+  margin-bottom:6px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.45px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width:100%;
+  border:1px solid #cfd5dd;
+  border-radius:8px;
+  outline:none;
+  background:white;
+}
+
+.form-input,
+.form-select {
+  height:48px;
+  padding:0 13px;
+}
+
+.form-textarea {
+  min-height:95px;
+  padding:12px 13px;
+  resize:vertical;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color:var(--red);
+  box-shadow:0 0 0 3px rgba(198,40,40,.08);
+}
+
+.primary-button {
+  width:100%;
+  min-height:48px;
+  border:none;
+  border-radius:8px;
+  background:var(--red);
+  color:white;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.primary-button:hover {
+  background:var(--red-dark);
+}
+
+.secondary-button {
+  width:100%;
+  min-height:43px;
+  margin-top:10px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:white;
+  color:var(--black);
+  font-weight:700;
+  cursor:pointer;
+}
+
+.small-button {
+  min-height:36px;
+  padding:0 12px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  background:white;
+  color:var(--black);
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.message {
+  display:none;
+  margin:12px 0;
+  padding:11px 12px;
+  border-radius:8px;
+  font-size:12px;
+}
+
+.message.error {
+  display:block;
+  background:#fff0ee;
+  color:#a81c13;
+}
+
+.message.success {
+  display:block;
+  background:var(--green-light);
+  color:var(--green);
+}
+
+/* RECORD */
+
+.record-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.df-number {
+  margin:0;
+  font-size:31px;
+  font-weight:850;
+}
+
+.record-label {
+  margin-top:2px;
+  color:var(--secondary);
+  font-size:12px;
+}
+
+.card {
+  padding:18px;
+  margin-bottom:15px;
+  border-top:3px solid var(--red);
+}
+
+.section-title {
+  margin:0 0 14px;
+  font-size:15px;
+  font-weight:800;
+}
+
+.detail-row {
+  display:grid;
+  grid-template-columns:38% 62%;
+  gap:10px;
+  padding:7px 0;
+  border-bottom:1px solid #f1f2f4;
+}
+
+.detail-row:last-child {
+  border-bottom:none;
+}
+
+.detail-label {
+  color:var(--secondary);
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+.detail-value {
+  font-size:13px;
+  line-height:1.4;
+}
+
+/* WO COMPACT */
+
+.work-order {
+  margin-bottom:11px;
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#fafbfc;
+}
+
+.wo-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.wo-number {
+  font-size:17px;
+  font-weight:850;
+}
+
+.status {
+  padding:5px 8px;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:850;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+.status-assigned {
+  background:#f1f5f9;
+  color:#475569;
+}
+
+.status-parts {
+  background:var(--orange-light);
+  color:var(--orange);
+}
+
+.status-door {
+  background:var(--purple-light);
+  color:var(--purple);
+}
+
+.status-completed {
+  background:var(--green-light);
+  color:var(--green);
+}
+
+.wo-meta {
+  margin-top:6px;
+  color:var(--secondary);
+  font-size:11px;
+}
+
+.wo-summary {
+  margin-top:8px;
+  font-size:12px;
+  line-height:1.45;
+}
+
+.wo-actions {
+  margin-top:10px;
+}
+
+.wo-details-panel {
+  display:none;
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid #eceef1;
+}
+
+.wo-details-panel.open {
+  display:block;
+}
+
+.wo-detail {
+  margin:5px 0;
+  font-size:12px;
+  line-height:1.45;
+}
+
+/* ADMIN */
+
+.admin-welcome {
+  margin-bottom:16px;
+  padding:18px;
+  background:var(--black);
+  color:white;
+  border-radius:11px;
+}
+
+.admin-small {
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.9px;
+  color:#d1d5db;
+}
+
+.admin-name {
+  margin-top:4px;
+  font-size:22px;
+  font-weight:800;
+}
+
+.authorized {
+  margin-top:7px;
+  color:#7ee2b8;
+  font-size:12px;
+  font-weight:700;
+}
+
+.admin-card {
+  margin-bottom:16px;
+  padding:19px;
+  border-top:4px solid var(--red);
+}
+
+.admin-card-title {
+  margin:0 0 4px;
+  font-size:17px;
+  font-weight:800;
+}
+
+.admin-card-description {
+  margin:0 0 18px;
+  color:var(--secondary);
+  font-size:12px;
+  line-height:1.45;
+}
+
+.current-wo {
+  display:none;
+  margin:15px 0;
+  padding:14px;
+  background:#f7f8fa;
+  border:1px solid var(--border);
+  border-radius:8px;
+}
+
+.current-wo.show {
+  display:block;
+}
+
+.footer {
+  padding:12px 18px 24px;
+  text-align:center;
+  color:#9ca3af;
+  font-size:10px;
+}
+
+@media(max-width:390px) {
+  .brand { font-size:17px; }
+  .detail-row {
+    grid-template-columns:1fr;
+    gap:2px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="topbar">
+  <div class="brand">ADVANCED FIRE DOOR SYSTEMS</div>
+  <div id="headerSubtitle" class="subtitle">WORK ORDER TRACKER</div>
+</header>
+
+
+<!-- ENGINEERING LOGIN SCREEN -->
+
+<section id="engineeringLoginScreen" class="screen">
+
+  <div class="login-card">
+
+    <div class="login-icon">🔐</div>
+
+    <h1 class="title">Door Record Access</h1>
+
+    <p class="subtitle-text">
+      Enter the DF Number and authorized access code.
+    </p>
+
+    <div class="form-group">
+      <label class="form-label">DF NUMBER</label>
+      <input id="dfInput"
+             class="form-input"
+             type="text"
+             placeholder="Example: NT-M-486">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">ACCESS CODE</label>
+      <input id="codeInput"
+             class="form-input"
+             type="password"
+             placeholder="Enter access code">
+    </div>
+
+    <div id="engineeringMessage" class="message"></div>
+
+    <button id="viewRecord" class="primary-button">
+      VIEW DOOR RECORD
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ENGINEERING RECORD SCREEN -->
+
+<section id="engineeringRecordScreen" class="screen hidden">
+
+  <div class="record-top">
+
+    <div>
+      <h1 id="dfNumber" class="df-number"></h1>
+      <div class="record-label">Door Facility Record</div>
+    </div>
+
+    <button id="backToSearch" class="small-button">
+      ← SEARCH
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2 class="section-title">DOOR INFORMATION</h2>
+
+    <div class="detail-row">
+      <div class="detail-label">Facility</div>
+      <div id="facility" class="detail-value"></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Location</div>
+      <div id="location" class="detail-value"></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Door Type</div>
+      <div id="doorType" class="detail-value"></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Door Status</div>
+      <div id="doorStatus" class="detail-value"></div>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2 class="section-title">WORK ORDER HISTORY</h2>
+
+    <div id="woHistory"></div>
+
+  </div>
+
+</section>
+
+
+<!-- ADMIN LOGIN SCREEN -->
+
+<section id="adminLoginScreen" class="screen hidden">
+
+  <div class="login-card">
+
+    <div class="login-icon">🔐</div>
+
+    <h1 class="title">AFDS Admin</h1>
+
+    <p class="subtitle-text">
+      Authorized personnel only.
+    </p>
+
+    <div id="adminMessage" class="message"></div>
+
+    <div class="form-group">
+      <label class="form-label">EMAIL</label>
+      <input id="adminEmail"
+             class="form-input"
+             type="email"
+             autocomplete="username">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">PASSWORD</label>
+      <input id="adminPassword"
+             class="form-input"
+             type="password"
+             autocomplete="current-password">
+    </div>
+
+    <button id="adminLoginButton" class="primary-button">
+      SIGN IN
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ADMIN PANEL SCREEN -->
+
+<section id="adminPanelScreen" class="screen hidden">
+
+  <div class="admin-welcome">
+
+    <div class="admin-small">
+      AFDS ADMINISTRATOR
+    </div>
+
+    <div id="adminName" class="admin-name">
+      AFDS Admin
+    </div>
+
+    <div class="authorized">
+      ● Authorized Access
+    </div>
+
+  </div>
+
+
+  <!-- ADD WO -->
+
+  <div class="admin-card">
+
+    <h2 class="admin-card-title">
+      Add New Work Order
+    </h2>
+
+    <p class="admin-card-description">
+      Register a new WO and associate it with a DF Number.
+    </p>
+
+    <div id="addWoMessage" class="message"></div>
+
+    <div class="form-group">
+      <label class="form-label">WO NUMBER</label>
+      <input id="newWoNumber"
+             class="form-input"
+             type="text">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">DF NUMBER</label>
+      <input id="newDfNumber"
+             class="form-input"
+             type="text">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">REQUESTER NAME</label>
+      <input id="newRequester"
+             class="form-input"
+             type="text">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">LOCATION</label>
+      <input id="newLocation"
+             class="form-input"
+             type="text">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">ASSIGNED TO</label>
+      <input id="newAssignedTo"
+             class="form-input"
+             type="text">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">DATE CREATED</label>
+      <input id="newDateCreated"
+             class="form-input"
+             type="datetime-local">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">DESCRIPTION</label>
+      <textarea id="newDescription"
+                class="form-textarea"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">PRIORITY</label>
+
+      <select id="newPriority" class="form-select">
+        <option value="Routine">Routine</option>
+        <option value="Urgent">Urgent</option>
+        <option value="Emergency">Emergency</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">STATUS</label>
+
+      <select id="newStatus" class="form-select">
+        <option value="Assigned">Assigned</option>
+        <option value="Parts on Order">Parts on Order</option>
+        <option value="Door on Order">Door on Order</option>
+        <option value="Completed">Completed</option>
+      </select>
+    </div>
+
+    <button id="saveWoButton" class="primary-button">
+      SAVE WORK ORDER
+    </button>
+
+  </div>
+
+
+  <!-- UPDATE STATUS -->
+
+  <div class="admin-card">
+
+    <h2 class="admin-card-title">
+      Update Work Order Status
+    </h2>
+
+    <p class="admin-card-description">
+      Search a WO and change its status.
+    </p>
+
+    <div id="updateWoMessage" class="message"></div>
+
+    <div class="form-group">
+      <label class="form-label">WO NUMBER</label>
+      <input id="searchWoNumber"
+             class="form-input"
+             type="text">
+    </div>
+
+    <button id="searchWoButton" class="secondary-button">
+      SEARCH WORK ORDER
+    </button>
+
+    <div id="currentWoBox" class="current-wo">
+
+      <div id="currentWoNumber"
+           style="font-weight:800;font-size:17px;"></div>
+
+      <div id="currentWoInfo"
+           style="margin-top:6px;color:#6b7280;font-size:12px;line-height:1.5;"></div>
+
+    </div>
+
+    <div id="statusUpdateControls" class="hidden">
+
+      <div class="form-group">
+
+        <label class="form-label">
+          NEW STATUS
+        </label>
+
+        <select id="updateStatus" class="form-select">
+          <option value="Assigned">Assigned</option>
+          <option value="Parts on Order">Parts on Order</option>
+          <option value="Door on Order">Door on Order</option>
+          <option value="Completed">Completed</option>
+        </select>
+
+      </div>
+
+      <button id="updateStatusButton" class="primary-button">
+        SAVE STATUS
+      </button>
+
+    </div>
+
+  </div>
+
+  <button id="logoutButton" class="secondary-button">
+    SIGN OUT
+  </button>
+
+</section>
+
+
+<div class="footer">
+  Advanced Fire Door Systems
+</div>
+
+</div>
+
+
+<script type="module">
+
+import { createClient }
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL =
+"https://pzqehkljifozdcntkphv.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_r40N0HlOLqupAvlfeqPI-w_HZy81xjM";
+
+const supabase =
+createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+
+/* SCREENS */
+
+const engineeringLoginScreen =
+document.getElementById("engineeringLoginScreen");
+
+const engineeringRecordScreen =
+document.getElementById("engineeringRecordScreen");
+
+const adminLoginScreen =
+document.getElementById("adminLoginScreen");
+
+const adminPanelScreen =
+document.getElementById("adminPanelScreen");
+
+const headerSubtitle =
+document.getElementById("headerSubtitle");
+
+function showOnly(screen) {
+
+  [
+    engineeringLoginScreen,
+    engineeringRecordScreen,
+    adminLoginScreen,
+    adminPanelScreen
+  ].forEach(el => el.classList.add("hidden"));
+
+  screen.classList.remove("hidden");
+
+  window.scrollTo(0,0);
+}
+
+
+/* ROUTING */
+
+const path =
+window.location.pathname
+.toLowerCase()
+.replace(/\/+$/,"");
+
+const isAdmin =
+path === "/admin" ||
+path === "/admin.html";
+
+if (isAdmin) {
+
+  headerSubtitle.textContent =
+  "ADMIN PORTAL";
+
+  showOnly(adminLoginScreen);
+
+  checkAdminSession();
+
+} else {
+
+  headerSubtitle.textContent =
+  "WORK ORDER TRACKER";
+
+  showOnly(engineeringLoginScreen);
+
+}
+
+
+/* HELPERS */
+
+function showMessage(el,text,type) {
+  el.textContent = text;
+  el.className = "message " + type;
+}
+
+function clearMessage(el) {
+  el.textContent = "";
+  el.className = "message";
+}
+
+function formatDate(value) {
+
+  if (!value) return "-";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime()))
+    return value;
+
+  return date.toLocaleString(
+    "en-US",
+    {
+      month:"short",
+      day:"2-digit",
+      year:"numeric",
+      hour:"numeric",
+      minute:"2-digit"
+    }
+  );
+}
+
+function statusClass(status) {
+
+  const value =
+  (status || "").toLowerCase();
+
+  if (value.includes("completed"))
+    return "status-completed";
+
+  if (value.includes("parts"))
+    return "status-parts";
+
+  if (value.includes("door"))
+    return "status-door";
+
+  return "status-assigned";
+}
+
+
+/* ENGINEERING */
+
+document
+.getElementById("viewRecord")
+.addEventListener("click", loadDoorRecord);
+
+async function loadDoorRecord() {
+
+  const message =
+  document.getElementById("engineeringMessage");
+
+  clearMessage(message);
+
+  const df =
+  document.getElementById("dfInput")
+  .value.trim().toUpperCase();
+
+  const code =
+  document.getElementById("codeInput")
+  .value.trim();
+
+  if (!df || !code) {
+
+    showMessage(
+      message,
+      "Please enter the DF Number and Access Code.",
+      "error"
+    );
+
+    return;
+  }
+
+  const {data,error} =
+  await supabase.rpc(
+    "get_door_record",
+    {
+      p_df_number:df,
+      p_access_code:code
+    }
+  );
+
+  if (error || !data) {
+
+    showMessage(
+      message,
+      "Invalid DF Number or Access Code.",
+      "error"
+    );
+
+    return;
+  }
+
+  const door = data.door;
+  const workOrders =
+  data.work_orders || [];
+
+  document.getElementById("dfNumber")
+  .textContent = door.df_number;
+
+  document.getElementById("facility")
+  .textContent = door.facility || "-";
+
+  document.getElementById("location")
+  .textContent = door.location || "-";
+
+  document.getElementById("doorType")
+  .textContent = door.door_type || "-";
+
+  document.getElementById("doorStatus")
+  .textContent = door.door_status || "-";
+
+  renderWorkOrders(workOrders);
+
+  showOnly(engineeringRecordScreen);
+}
+
+function renderWorkOrders(workOrders) {
+
+  const container =
+  document.getElementById("woHistory");
+
+  container.innerHTML = "";
+
+  if (!workOrders.length) {
+
+    container.innerHTML =
+    "<p>No work orders associated with this door.</p>";
+
+    return;
+  }
+
+  workOrders.forEach((wo,index) => {
+
+    const item =
+    document.createElement("div");
+
+    item.className = "work-order";
+
+    const panelId =
+    "details-" + index;
+
+    item.innerHTML = `
+
+      <div class="wo-top">
+
+        <div class="wo-number">
+          WO #${wo.wo_number}
+        </div>
+
+        <span class="status ${statusClass(wo.status)}">
+          ${wo.status || "Assigned"}
+        </span>
+
+      </div>
+
+      <div class="wo-meta">
+        ${formatDate(wo.date_created)}
+        •
+        ${wo.priority || "-"}
+      </div>
+
+      <div class="wo-summary">
+        ${wo.description || "-"}
+      </div>
+
+      <div class="wo-actions">
+
+        <button class="small-button"
+                data-target="${panelId}">
+          VIEW DETAILS
+        </button>
+
+      </div>
+
+      <div id="${panelId}"
+           class="wo-details-panel">
+
+        <div class="wo-detail">
+          <strong>Requested By:</strong>
+          ${wo.requester_name || "-"}
+        </div>
+
+        <div class="wo-detail">
+          <strong>Assigned To:</strong>
+          ${wo.assigned_to || "-"}
+        </div>
+
+        <div class="wo-detail">
+          <strong>Location:</strong>
+          ${wo.location || "-"}
+        </div>
+
+        <div class="wo-detail">
+          <strong>Last Updated:</strong>
+          ${formatDate(wo.last_updated)}
+        </div>
+
+      </div>
+    `;
+
+    container.appendChild(item);
+
+  });
+
+  container
+  .querySelectorAll("[data-target]")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        const panel =
+        document.getElementById(
+          button.dataset.target
+        );
+
+        panel.classList.toggle("open");
+
+        button.textContent =
+        panel.classList.contains("open")
+        ? "HIDE DETAILS"
+        : "VIEW DETAILS";
+      }
+    );
+
+  });
+}
+
+document
+.getElementById("backToSearch")
+.addEventListener(
+  "click",
+  () => {
+
+    document.getElementById("dfInput").value = "";
+    document.getElementById("codeInput").value = "";
+
+    showOnly(engineeringLoginScreen);
+  }
+);
+
+
+/* ADMIN AUTH */
+
+const adminMessage =
+document.getElementById("adminMessage");
+
+async function verifyAdmin(user) {
+
+  const {data,error} =
+  await supabase
+  .from("admin_users")
+  .select("name,active")
+  .eq("user_id",user.id)
+  .eq("active",true)
+  .maybeSingle();
+
+  if (error || !data) {
+
+    await supabase.auth.signOut();
+
+    showMessage(
+      adminMessage,
+      "This account is not authorized for AFDS Admin.",
+      "error"
+    );
+
+    showOnly(adminLoginScreen);
+
+    return false;
+  }
+
+  document.getElementById("adminName")
+  .textContent =
+  data.name || "AFDS Admin";
+
+  showOnly(adminPanelScreen);
+
+  return true;
+}
+
+document
+.getElementById("adminLoginButton")
+.addEventListener(
+  "click",
+  async () => {
+
+    clearMessage(adminMessage);
+
+    const email =
+    document.getElementById("adminEmail")
+    .value.trim();
+
+    const password =
+    document.getElementById("adminPassword")
+    .value;
+
+    const {data,error} =
+    await supabase.auth
+    .signInWithPassword({
+      email,
+      password
+    });
+
+    if (error || !data.user) {
+
+      showMessage(
+        adminMessage,
+        "Invalid email or password.",
+        "error"
+      );
+
+      return;
+    }
+
+    await verifyAdmin(data.user);
+  }
+);
+
+async function checkAdminSession() {
+
+  const {data:{session}} =
+  await supabase.auth.getSession();
+
+  if (session?.user)
+    await verifyAdmin(session.user);
+}
+
+document
+.getElementById("logoutButton")
+.addEventListener(
+  "click",
+  async () => {
+
+    await supabase.auth.signOut();
+    showOnly(adminLoginScreen);
+  }
+);
+
+
+/* ADD WORK ORDER */
+
+document
+.getElementById("saveWoButton")
+.addEventListener(
+  "click",
+  async () => {
+
+    const message =
+    document.getElementById("addWoMessage");
+
+    clearMessage(message);
+
+    const woNumber =
+    document.getElementById("newWoNumber")
+    .value.trim();
+
+    const dfNumber =
+    document.getElementById("newDfNumber")
+    .value.trim().toUpperCase();
+
+    if (!woNumber || !dfNumber) {
+
+      showMessage(
+        message,
+        "WO Number and DF Number are required.",
+        "error"
+      );
+
+      return;
+    }
+
+    const {data:door,error:doorError} =
+    await supabase
+    .from("doors")
+    .select("df_number")
+    .eq("df_number",dfNumber)
+    .maybeSingle();
+
+    if (doorError || !door) {
+
+      showMessage(
+        message,
+        "DF Number not found.",
+        "error"
+      );
+
+      return;
+    }
+
+    const record = {
+
+      wo_number:woNumber,
+      df_number:dfNumber,
+
+      requester_name:
+      document.getElementById("newRequester")
+      .value.trim(),
+
+      location:
+      document.getElementById("newLocation")
+      .value.trim(),
+
+      assigned_to:
+      document.getElementById("newAssignedTo")
+      .value.trim(),
+
+      description:
+      document.getElementById("newDescription")
+      .value.trim(),
+
+      priority:
+      document.getElementById("newPriority").value,
+
+      status:
+      document.getElementById("newStatus").value
+    };
+
+    const dateValue =
+    document.getElementById("newDateCreated").value;
+
+    if (dateValue)
+      record.date_created =
+      new Date(dateValue).toISOString();
+
+    const {error} =
+    await supabase
+    .from("work_orders")
+    .insert(record);
+
+    if (error) {
+
+      showMessage(
+        message,
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+    showMessage(
+      message,
+      `WO #${woNumber} saved successfully.`,
+      "success"
+    );
+  }
+);
+
+
+/* UPDATE STATUS */
+
+let selectedWO = null;
+
+document
+.getElementById("searchWoButton")
+.addEventListener(
+  "click",
+  async () => {
+
+    const message =
+    document.getElementById("updateWoMessage");
+
+    clearMessage(message);
+
+    const woNumber =
+    document.getElementById("searchWoNumber")
+    .value.trim();
+
+    const {data,error} =
+    await supabase
+    .from("work_orders")
+    .select("wo_number,df_number,status,location,description")
+    .eq("wo_number",woNumber)
+    .maybeSingle();
+
+    if (error || !data) {
+
+      showMessage(
+        message,
+        "Work Order not found.",
+        "error"
+      );
+
+      return;
+    }
+
+    selectedWO = data;
+
+    document.getElementById("currentWoNumber")
+    .textContent =
+    "WO #" + data.wo_number;
+
+    document.getElementById("currentWoInfo")
+    .innerHTML = `
+      <strong>DF:</strong> ${data.df_number || "-"}<br>
+      <strong>Location:</strong> ${data.location || "-"}<br>
+      <strong>Current Status:</strong> ${data.status || "Assigned"}
+    `;
+
+    document.getElementById("currentWoBox")
+    .classList.add("show");
+
+    document.getElementById("statusUpdateControls")
+    .classList.remove("hidden");
+
+    document.getElementById("updateStatus")
+    .value =
+    data.status || "Assigned";
+  }
+);
+
+document
+.getElementById("updateStatusButton")
+.addEventListener(
+  "click",
+  async () => {
+
+    if (!selectedWO) return;
+
+    const message =
+    document.getElementById("updateWoMessage");
+
+    const newStatus =
+    document.getElementById("updateStatus").value;
+
+    const {error} =
+    await supabase
+    .from("work_orders")
+    .update({
+      status:newStatus,
+      last_updated:new Date().toISOString()
+    })
+    .eq("wo_number",selectedWO.wo_number);
+
+    if (error) {
+
+      showMessage(
+        message,
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+    selectedWO.status = newStatus;
+
+    showMessage(
+      message,
+      `WO #${selectedWO.wo_number} updated to ${newStatus}.`,
+      "success"
+    );
+
+    document.getElementById("currentWoInfo")
+    .innerHTML = `
+      <strong>DF:</strong> ${selectedWO.df_number || "-"}<br>
+      <strong>Location:</strong> ${selectedWO.location || "-"}<br>
+      <strong>Current Status:</strong> ${newStatus}
+    `;
+  }
+);
+
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AFDS | Work Order Tracker</title>
+
+<style>
+* { box-sizing: border-box; }
+
+:root {
+  --black:#171717;
+  --red:#c62828;
+  --red-dark:#9f1f1f;
+  --background:#f5f6f8;
+  --white:#ffffff;
+  --text:#202124;
+  --secondary:#6b7280;
+  --border:#e2e5e9;
   --green:#15805c;
   --green-light:#eaf8f1;
   --orange:#c66a00;
