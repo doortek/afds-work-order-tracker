@@ -2,6 +2,1814 @@
 <html lang="en">
 
 <head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>AFDS | Work Order Tracker</title>
+
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+
+  --afds-black: #171717;
+  --afds-red: #c62828;
+  --afds-red-dark: #9f1f1f;
+
+  --text: #202124;
+  --secondary: #6b7280;
+
+  --border: #e4e7eb;
+
+  --background: #f5f6f8;
+  --white: #ffffff;
+
+  --blue: #2563eb;
+  --blue-light: #eff6ff;
+
+  --green: #15805c;
+  --green-light: #eaf8f1;
+
+  --orange: #c66a00;
+  --orange-light: #fff5e6;
+
+  --purple: #7c3aed;
+  --purple-light: #f5f0ff;
+
+}
+
+
+body {
+
+  margin: 0;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+  background:
+    var(--background);
+
+  color:
+    var(--text);
+
+}
+
+
+button,
+input {
+
+  font: inherit;
+
+}
+
+
+.app {
+
+  width: 100%;
+
+  max-width: 520px;
+
+  min-height: 100vh;
+
+  margin: auto;
+
+  background: white;
+
+}
+
+
+/* =============================
+   HEADER
+============================= */
+
+.topbar {
+
+  padding:
+    26px
+    25px
+    21px;
+
+  background:
+    var(--afds-black);
+
+  border-bottom:
+    5px solid
+    var(--afds-red);
+
+}
+
+
+.brand {
+
+  color: white;
+
+  font-size: 21px;
+
+  font-weight: 800;
+
+}
+
+
+.subtitle {
+
+  margin-top: 5px;
+
+  color: #d1d5db;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+}
+
+
+/* =============================
+   LOGIN
+============================= */
+
+.login-wrapper {
+
+  padding:
+    45px
+    20px;
+
+}
+
+
+.login-card {
+
+  padding: 28px 24px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 4px 18px
+    rgba(0,0,0,.06);
+
+}
+
+
+.login-icon {
+
+  width: 54px;
+
+  height: 54px;
+
+  margin:
+    0 auto
+    16px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  border-radius: 50%;
+
+  background: #fceaea;
+
+  font-size: 24px;
+
+}
+
+
+.login-title {
+
+  margin: 0;
+
+  text-align: center;
+
+  color:
+    var(--afds-black);
+
+  font-size: 23px;
+
+  font-weight: 800;
+
+}
+
+
+.login-subtitle {
+
+  margin:
+    8px
+    0
+    26px;
+
+  text-align: center;
+
+  color:
+    var(--secondary);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+}
+
+
+.form-group {
+
+  margin-bottom: 18px;
+
+}
+
+
+.form-label {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  color:
+    var(--afds-black);
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: .5px;
+
+}
+
+
+.form-input {
+
+  width: 100%;
+
+  height: 50px;
+
+  padding:
+    0
+    14px;
+
+  border:
+    1px solid
+    #cfd5dd;
+
+  border-radius: 8px;
+
+  outline: none;
+
+  font-size: 16px;
+
+}
+
+
+.form-input:focus {
+
+  border-color:
+    var(--afds-red);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(198,40,40,.08);
+
+}
+
+
+.primary-button {
+
+  width: 100%;
+
+  height: 50px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background:
+    var(--afds-red);
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+}
+
+
+.primary-button:hover {
+
+  background:
+    var(--afds-red-dark);
+
+}
+
+
+.message {
+
+  display: none;
+
+  margin-bottom: 15px;
+
+  padding: 11px;
+
+  border-radius: 7px;
+
+  font-size: 12px;
+
+}
+
+
+.message.error {
+
+  display: block;
+
+  background: #fff0ee;
+
+  color: #a81c13;
+
+}
+
+
+/* =============================
+   RECORD PAGE
+============================= */
+
+.record {
+
+  display: none;
+
+}
+
+
+.door-header {
+
+  padding:
+    26px
+    25px
+    12px;
+
+}
+
+
+.df-number {
+
+  margin: 0;
+
+  color:
+    var(--afds-black);
+
+  font-size: 36px;
+
+  font-weight: 850;
+
+}
+
+
+.door-label {
+
+  margin-top: 3px;
+
+  color:
+    var(--secondary);
+
+  font-size: 13px;
+
+}
+
+
+.card {
+
+  margin:
+    16px
+    18px;
+
+  padding: 20px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-top:
+    3px solid
+    var(--afds-red);
+
+  border-radius: 11px;
+
+  box-shadow:
+    0 2px 7px
+    rgba(0,0,0,.04);
+
+}
+
+
+.section-title {
+
+  margin:
+    0
+    0
+    18px;
+
+  color:
+    var(--afds-black);
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+}
+
+
+.detail-row {
+
+  display: grid;
+
+  grid-template-columns:
+    40% 60%;
+
+  gap: 12px;
+
+  padding:
+    9px
+    0;
+
+  border-bottom:
+    1px solid
+    #f1f2f4;
+
+}
+
+
+.detail-row:last-child {
+
+  border-bottom: none;
+
+}
+
+
+.detail-label {
+
+  color:
+    var(--secondary);
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: .4px;
+
+  text-transform:
+    uppercase;
+
+}
+
+
+.detail-value {
+
+  font-size: 14px;
+
+  line-height: 1.45;
+
+}
+
+
+.status-green {
+
+  color:
+    var(--green);
+
+  font-weight: 700;
+
+}
+
+
+/* =============================
+   WO HISTORY
+============================= */
+
+.history-header {
+
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items: center;
+
+  margin-bottom: 18px;
+
+}
+
+
+.history-count {
+
+  padding:
+    5px
+    9px;
+
+  border-radius: 999px;
+
+  background: #f1f5f9;
+
+  color:
+    var(--secondary);
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+}
+
+
+.work-order {
+
+  margin-bottom: 14px;
+
+  padding: 16px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 10px;
+
+  background: #fafbfc;
+
+}
+
+
+.work-order:last-child {
+
+  margin-bottom: 0;
+
+}
+
+
+.wo-top {
+
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items: center;
+
+  gap: 10px;
+
+}
+
+
+.wo-number {
+
+  color:
+    var(--afds-black);
+
+  font-size: 18px;
+
+  font-weight: 850;
+
+}
+
+
+.status {
+
+  padding:
+    6px
+    9px;
+
+  border-radius: 999px;
+
+  font-size: 9px;
+
+  font-weight: 850;
+
+  text-transform:
+    uppercase;
+
+  white-space: nowrap;
+
+}
+
+
+.status-assigned {
+
+  color: #475569;
+
+  background: #f1f5f9;
+
+}
+
+
+.status-progress {
+
+  color:
+    var(--blue);
+
+  background:
+    var(--blue-light);
+
+}
+
+
+.status-parts {
+
+  color:
+    var(--orange);
+
+  background:
+    var(--orange-light);
+
+}
+
+
+.status-door {
+
+  color:
+    var(--purple);
+
+  background:
+    var(--purple-light);
+
+}
+
+
+.status-completed {
+
+  color:
+    var(--green);
+
+  background:
+    var(--green-light);
+
+}
+
+
+.wo-meta {
+
+  margin-top: 8px;
+
+  color:
+    var(--secondary);
+
+  font-size: 11px;
+
+}
+
+
+.wo-description {
+
+  margin-top: 11px;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+}
+
+
+.wo-details {
+
+  margin-top: 12px;
+
+  padding-top: 11px;
+
+  border-top:
+    1px solid
+    #eceef1;
+
+}
+
+
+.wo-detail {
+
+  margin:
+    5px
+    0;
+
+  font-size: 12px;
+
+  line-height: 1.45;
+
+}
+
+
+.wo-detail strong {
+
+  color:
+    var(--afds-black);
+
+}
+
+
+.no-records {
+
+  padding: 20px;
+
+  text-align: center;
+
+  color:
+    var(--secondary);
+
+  font-size: 13px;
+
+}
+
+
+/* =============================
+   RESET
+============================= */
+
+.reset-button {
+
+  width: 100%;
+
+  height: 45px;
+
+  margin-top: 8px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 7px;
+
+  background: white;
+
+  color:
+    var(--afds-black);
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+}
+
+
+.footer {
+
+  padding:
+    12px
+    20px
+    30px;
+
+  text-align: center;
+
+  color: #9ca3af;
+
+  font-size: 10px;
+
+}
+
+
+/* MOBILE */
+
+@media
+(max-width: 390px) {
+
+  .brand {
+    font-size: 18px;
+  }
+
+  .df-number {
+    font-size: 31px;
+  }
+
+  .detail-row {
+
+    grid-template-columns:
+      1fr;
+
+    gap: 3px;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<header class="topbar">
+
+  <div class="brand">
+    ADVANCED FIRE DOOR SYSTEMS
+  </div>
+
+  <div class="subtitle">
+    WORK ORDER TRACKER
+  </div>
+
+</header>
+
+
+
+<!-- =============================
+     ACCESS MODULE
+============================= -->
+
+<section
+  id="loginSection"
+  class="login-wrapper"
+>
+
+<div class="login-card">
+
+
+  <div class="login-icon">
+    🔐
+  </div>
+
+
+  <h1 class="login-title">
+
+    Door Record Access
+
+  </h1>
+
+
+  <p class="login-subtitle">
+
+    Enter the Door Facility Number
+    and your authorized access code
+    to view the work order history.
+
+  </p>
+
+
+  <div class="form-group">
+
+    <label
+      class="form-label"
+      for="dfInput"
+    >
+      DF NUMBER
+    </label>
+
+
+    <input
+      id="dfInput"
+      class="form-input"
+      type="text"
+      placeholder="Example: NT-M-486"
+      autocomplete="off"
+    >
+
+  </div>
+
+
+
+  <div class="form-group">
+
+    <label
+      class="form-label"
+      for="codeInput"
+    >
+      ACCESS CODE
+    </label>
+
+
+    <input
+      id="codeInput"
+      class="form-input"
+      type="password"
+      placeholder="Enter access code"
+      autocomplete="off"
+    >
+
+  </div>
+
+
+
+  <div
+    id="loginMessage"
+    class="message"
+  ></div>
+
+
+
+  <button
+    id="viewRecord"
+    class="primary-button"
+  >
+
+    VIEW DOOR RECORD
+
+  </button>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =============================
+     DOOR RECORD
+============================= -->
+
+<section
+  id="recordSection"
+  class="record"
+>
+
+
+<div class="door-header">
+
+  <h1
+    id="dfNumber"
+    class="df-number"
+  ></h1>
+
+  <div class="door-label">
+    Door Facility Record
+  </div>
+
+</div>
+
+
+
+<!-- DOOR INFORMATION -->
+
+<div class="card">
+
+  <h2 class="section-title">
+
+    DOOR INFORMATION
+
+  </h2>
+
+
+  <div class="detail-row">
+
+    <div class="detail-label">
+      Facility
+    </div>
+
+    <div
+      id="facility"
+      class="detail-value"
+    ></div>
+
+  </div>
+
+
+
+  <div class="detail-row">
+
+    <div class="detail-label">
+      Location
+    </div>
+
+    <div
+      id="location"
+      class="detail-value"
+    ></div>
+
+  </div>
+
+
+
+  <div class="detail-row">
+
+    <div class="detail-label">
+      Door Type
+    </div>
+
+    <div
+      id="doorType"
+      class="detail-value"
+    ></div>
+
+  </div>
+
+
+
+  <div class="detail-row">
+
+    <div class="detail-label">
+      Door Status
+    </div>
+
+    <div
+      id="doorStatus"
+      class="detail-value status-green"
+    ></div>
+
+  </div>
+
+</div>
+
+
+
+<!-- WORK ORDER HISTORY -->
+
+<div class="card">
+
+
+  <div class="history-header">
+
+    <h2
+      class="section-title"
+      style="margin:0;"
+    >
+      WORK ORDER HISTORY
+    </h2>
+
+
+    <span
+      id="woCount"
+      class="history-count"
+    >
+      0 WO
+    </span>
+
+  </div>
+
+
+  <div id="woHistory"></div>
+
+
+  <button
+    id="resetButton"
+    class="reset-button"
+  >
+
+    SEARCH ANOTHER DOOR
+
+  </button>
+
+
+</div>
+
+
+
+<div class="footer">
+
+  Advanced Fire Door Systems
+  • Work Order Tracking
+
+</div>
+
+
+</section>
+
+
+</div>
+
+
+
+<script type="module">
+
+
+import {
+  createClient
+}
+from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+
+/* =============================
+   SUPABASE
+============================= */
+
+const SUPABASE_URL =
+  "https://pzqehkljifozdcntkphv.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_r40N0HlOLqupAvlfeqPI-w_HZy81xjM";
+
+
+const supabase =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+
+/* =============================
+   ELEMENTS
+============================= */
+
+const loginSection =
+  document.getElementById(
+    "loginSection"
+  );
+
+
+const recordSection =
+  document.getElementById(
+    "recordSection"
+  );
+
+
+const loginMessage =
+  document.getElementById(
+    "loginMessage"
+  );
+
+
+
+/* =============================
+   STATUS STYLE
+============================= */
+
+function statusClass(status) {
+
+
+  const value =
+    (status || "")
+      .toLowerCase();
+
+
+  if (
+    value.includes(
+      "completed"
+    )
+  ) {
+
+    return
+      "status-completed";
+
+  }
+
+
+  if (
+    value.includes(
+      "parts"
+    )
+  ) {
+
+    return
+      "status-parts";
+
+  }
+
+
+  if (
+    value.includes(
+      "door"
+    )
+  ) {
+
+    return
+      "status-door";
+
+  }
+
+
+  if (
+    value.includes(
+      "progress"
+    )
+  ) {
+
+    return
+      "status-progress";
+
+  }
+
+
+  return
+    "status-assigned";
+
+}
+
+
+
+/* =============================
+   FORMAT DATE
+============================= */
+
+function formatDate(value) {
+
+
+  if (!value) {
+
+    return "-";
+
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+
+    return value;
+
+  }
+
+
+  return date
+    .toLocaleString(
+      "en-US",
+      {
+
+        month:
+          "short",
+
+        day:
+          "2-digit",
+
+        year:
+          "numeric",
+
+        hour:
+          "numeric",
+
+        minute:
+          "2-digit"
+
+      }
+    );
+
+}
+
+
+
+/* =============================
+   LOGIN
+============================= */
+
+document
+  .getElementById(
+    "viewRecord"
+  )
+  .addEventListener(
+    "click",
+    loadDoorRecord
+  );
+
+
+
+document
+  .getElementById(
+    "codeInput"
+  )
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Enter"
+      ) {
+
+        loadDoorRecord();
+
+      }
+
+    }
+  );
+
+
+
+async function
+loadDoorRecord() {
+
+
+  const df =
+    document
+      .getElementById(
+        "dfInput"
+      )
+      .value
+      .trim()
+      .toUpperCase();
+
+
+  const code =
+    document
+      .getElementById(
+        "codeInput"
+      )
+      .value
+      .trim();
+
+
+  loginMessage
+    .className =
+      "message";
+
+
+  loginMessage
+    .textContent =
+      "";
+
+
+  if (
+    !df ||
+    !code
+  ) {
+
+    showError(
+      "Please enter the DF Number and Access Code."
+    );
+
+    return;
+
+  }
+
+
+
+  const button =
+    document
+      .getElementById(
+        "viewRecord"
+      );
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    "VERIFYING...";
+
+
+
+  const {
+    data,
+    error
+  } =
+    await supabase
+
+      .rpc(
+        "get_door_record",
+        {
+
+          p_df_number:
+            df,
+
+          p_access_code:
+            code
+
+        }
+      );
+
+
+
+  button.disabled =
+    false;
+
+
+  button.textContent =
+    "VIEW DOOR RECORD";
+
+
+
+  if (
+    error ||
+    !data
+  ) {
+
+
+    console.error(
+      error
+    );
+
+
+    showError(
+      "Invalid DF Number or Access Code."
+    );
+
+
+    return;
+
+  }
+
+
+
+  displayRecord(
+    data
+  );
+
+}
+
+
+
+/* =============================
+   SHOW ERROR
+============================= */
+
+function showError(
+  message
+) {
+
+
+  loginMessage
+    .textContent =
+      message;
+
+
+  loginMessage
+    .className =
+      "message error";
+
+}
+
+
+
+/* =============================
+   DISPLAY RECORD
+============================= */
+
+function displayRecord(
+  data
+) {
+
+
+  const door =
+    data.door;
+
+
+  const workOrders =
+    data.work_orders ||
+    [];
+
+
+
+  document
+    .getElementById(
+      "dfNumber"
+    )
+    .textContent =
+      door.df_number;
+
+
+
+  document
+    .getElementById(
+      "facility"
+    )
+    .textContent =
+      door.facility ||
+      "-";
+
+
+
+  document
+    .getElementById(
+      "location"
+    )
+    .textContent =
+      door.location ||
+      "-";
+
+
+
+  document
+    .getElementById(
+      "doorType"
+    )
+    .textContent =
+      door.door_type ||
+      "-";
+
+
+
+  document
+    .getElementById(
+      "doorStatus"
+    )
+    .textContent =
+      "● " +
+      (
+        door.door_status ||
+        "-"
+      );
+
+
+
+  document
+    .getElementById(
+      "woCount"
+    )
+    .textContent =
+
+      workOrders.length +
+
+      (
+        workOrders.length === 1
+          ? " WO"
+          : " WOs"
+      );
+
+
+
+  renderWorkOrders(
+    workOrders
+  );
+
+
+
+  loginSection
+    .style.display =
+      "none";
+
+
+  recordSection
+    .style.display =
+      "block";
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+
+/* =============================
+   WORK ORDERS
+============================= */
+
+function renderWorkOrders(
+  workOrders
+) {
+
+
+  const container =
+    document
+      .getElementById(
+        "woHistory"
+      );
+
+
+  container.innerHTML =
+    "";
+
+
+
+  if (
+    workOrders.length === 0
+  ) {
+
+
+    container.innerHTML =
+      `
+
+      <div class="no-records">
+
+        No work orders are currently
+        associated with this door.
+
+      </div>
+
+      `;
+
+
+    return;
+
+  }
+
+
+
+  workOrders.forEach(
+    wo => {
+
+
+      const item =
+        document
+          .createElement(
+            "div"
+          );
+
+
+      item.className =
+        "work-order";
+
+
+
+      item.innerHTML =
+        `
+
+
+        <div class="wo-top">
+
+
+          <div class="wo-number">
+
+            WO #${wo.wo_number}
+
+          </div>
+
+
+          <span
+            class="
+              status
+              ${statusClass(
+                wo.status
+              )}
+            "
+          >
+
+            ${
+              wo.status ||
+              "Assigned"
+            }
+
+          </span>
+
+
+        </div>
+
+
+
+        <div class="wo-meta">
+
+          ${
+            formatDate(
+              wo.date_created
+            )
+          }
+
+          &nbsp;•&nbsp;
+
+          ${
+            wo.priority ||
+            "-"
+          }
+
+        </div>
+
+
+
+        <div
+          class="wo-description"
+        >
+
+          ${
+            wo.description ||
+            "-"
+          }
+
+        </div>
+
+
+
+        <div class="wo-details">
+
+
+          <div class="wo-detail">
+
+            <strong>
+              Requested By:
+            </strong>
+
+            ${
+              wo.requester_name ||
+              "-"
+            }
+
+          </div>
+
+
+
+          <div class="wo-detail">
+
+            <strong>
+              Assigned To:
+            </strong>
+
+            ${
+              wo.assigned_to ||
+              "-"
+            }
+
+          </div>
+
+
+
+          <div class="wo-detail">
+
+            <strong>
+              Last Updated:
+            </strong>
+
+            ${
+              formatDate(
+                wo.last_updated
+              )
+            }
+
+          </div>
+
+
+        </div>
+
+
+        `;
+
+
+
+      container
+        .appendChild(
+          item
+        );
+
+
+    }
+  );
+
+}
+
+
+
+/* =============================
+   RESET
+============================= */
+
+document
+  .getElementById(
+    "resetButton"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+
+      document
+        .getElementById(
+          "dfInput"
+        )
+        .value =
+          "";
+
+
+      document
+        .getElementById(
+          "codeInput"
+        )
+        .value =
+          "";
+
+
+      recordSection
+        .style.display =
+          "none";
+
+
+      loginSection
+        .style.display =
+          "block";
+
+
+      window.scrollTo(
+        0,
+        0
+      );
+
+
+    }
+  );
+
+
+</script>
+
+
+</body>
+
+</html><!DOCTYPE html>
+<html lang="en">
+
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
