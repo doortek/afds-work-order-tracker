@@ -1,5 +1,2308 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AFDS | Work Order Tracker</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --black:#171717;
+  --red:#c62828;
+  --red-dark:#9f1f1f;
+  --background:#f5f6f8;
+  --white:#ffffff;
+  --text:#202124;
+  --secondary:#6b7280;
+  --border:#e2e5e9;
+
+  --green:#15805c;
+  --green-light:#eaf8f1;
+
+  --orange:#c66a00;
+  --orange-light:#fff5e6;
+
+  --purple:#7c3aed;
+  --purple-light:#f5f0ff;
+}
+
+html,
+body {
+  margin:0;
+  padding:0;
+  min-height:100%;
+}
+
+body {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+  background:var(--background);
+  color:var(--text);
+}
+
+button,
+input,
+select,
+textarea {
+  font:inherit;
+}
+
+.app {
+  width:100%;
+  max-width:600px;
+  min-height:100vh;
+  margin:0 auto;
+  background:white;
+}
+
+.topbar {
+  padding:23px 22px 18px;
+  background:var(--black);
+  border-bottom:5px solid var(--red);
+}
+
+.brand {
+  color:white;
+  font-size:20px;
+  font-weight:800;
+}
+
+.header-subtitle {
+  margin-top:4px;
+  color:#d1d5db;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1.4px;
+}
+
+.content {
+  padding:24px 18px 32px;
+}
+
+/* LOGIN */
+
+.login-card {
+  padding:26px 22px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:0 4px 16px rgba(0,0,0,.05);
+}
+
+.login-icon {
+  width:52px;
+  height:52px;
+  margin:0 auto 14px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+  background:#fceaea;
+
+  font-size:23px;
+}
+
+.login-title {
+  margin:0;
+  text-align:center;
+  font-size:22px;
+  font-weight:800;
+}
+
+.login-description {
+  margin:8px 0 24px;
+  text-align:center;
+  color:var(--secondary);
+  font-size:13px;
+  line-height:1.45;
+}
+
+/* FORMS */
+
+.form-group {
+  margin-bottom:16px;
+}
+
+.form-label {
+  display:block;
+  margin-bottom:6px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.4px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width:100%;
+  border:1px solid #cfd5dd;
+  border-radius:8px;
+  outline:none;
+  background:white;
+}
+
+.form-input,
+.form-select {
+  height:48px;
+  padding:0 13px;
+}
+
+.form-textarea {
+  min-height:95px;
+  padding:12px 13px;
+  resize:vertical;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color:var(--red);
+  box-shadow:0 0 0 3px rgba(198,40,40,.08);
+}
+
+/* BUTTONS */
+
+.primary-button {
+  width:100%;
+  min-height:48px;
+
+  border:none;
+  border-radius:8px;
+
+  background:var(--red);
+  color:white;
+
+  font-weight:800;
+  cursor:pointer;
+}
+
+.primary-button:hover {
+  background:var(--red-dark);
+}
+
+.secondary-button {
+  width:100%;
+  min-height:43px;
+  margin-top:10px;
+
+  border:1px solid var(--border);
+  border-radius:8px;
+
+  background:white;
+  color:var(--black);
+
+  font-weight:700;
+  cursor:pointer;
+}
+
+.small-button {
+  min-height:35px;
+  padding:0 12px;
+
+  border:1px solid var(--border);
+  border-radius:7px;
+
+  background:white;
+  color:var(--black);
+
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* MESSAGES */
+
+.message {
+  display:none;
+  margin:12px 0;
+  padding:11px 12px;
+  border-radius:8px;
+  font-size:12px;
+  line-height:1.4;
+}
+
+.message.error {
+  display:block;
+  background:#fff0ee;
+  color:#a81c13;
+}
+
+.message.success {
+  display:block;
+  background:var(--green-light);
+  color:var(--green);
+}
+
+/* DOOR RECORD */
+
+.record-header {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.df-number {
+  margin:0;
+  font-size:30px;
+  line-height:1;
+  font-weight:850;
+}
+
+.df-label {
+  margin-top:5px;
+  color:var(--secondary);
+  font-size:11px;
+}
+
+.card {
+  margin-bottom:14px;
+  padding:17px;
+
+  background:white;
+
+  border:1px solid var(--border);
+  border-top:3px solid var(--red);
+
+  border-radius:11px;
+}
+
+.section-title {
+  margin:0 0 13px;
+  font-size:15px;
+  font-weight:800;
+}
+
+.detail-row {
+  display:grid;
+  grid-template-columns:36% 64%;
+  gap:8px;
+
+  padding:7px 0;
+
+  border-bottom:1px solid #f1f2f4;
+}
+
+.detail-row:last-child {
+  border-bottom:none;
+}
+
+.detail-label {
+  color:var(--secondary);
+  font-size:9px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+.detail-value {
+  font-size:13px;
+  line-height:1.4;
+}
+
+/* WORK ORDERS */
+
+.work-order {
+  margin-bottom:10px;
+  padding:13px;
+
+  border:1px solid var(--border);
+  border-radius:9px;
+
+  background:#fafbfc;
+}
+
+.wo-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.wo-number {
+  font-size:16px;
+  font-weight:850;
+}
+
+.status {
+  padding:5px 8px;
+  border-radius:999px;
+
+  font-size:8px;
+  font-weight:850;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+.status-assigned {
+  background:#f1f5f9;
+  color:#475569;
+}
+
+.status-parts {
+  background:var(--orange-light);
+  color:var(--orange);
+}
+
+.status-door {
+  background:var(--purple-light);
+  color:var(--purple);
+}
+
+.status-completed {
+  background:var(--green-light);
+  color:var(--green);
+}
+
+.wo-meta {
+  margin-top:5px;
+  color:var(--secondary);
+  font-size:10px;
+}
+
+.wo-description {
+  margin-top:7px;
+  font-size:12px;
+  line-height:1.4;
+}
+
+.wo-details {
+  display:none;
+  margin-top:10px;
+  padding-top:9px;
+  border-top:1px solid #e7e9ec;
+}
+
+.wo-details.visible {
+  display:block;
+}
+
+.wo-detail {
+  margin:4px 0;
+  font-size:11px;
+  line-height:1.4;
+}
+
+.details-button {
+  margin-top:9px;
+  padding:6px 10px;
+
+  border:1px solid var(--border);
+  border-radius:6px;
+
+  background:white;
+
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* ADMIN MENU */
+
+.admin-header {
+  margin-bottom:18px;
+  padding:17px;
+
+  background:var(--black);
+  color:white;
+
+  border-radius:11px;
+}
+
+.admin-label {
+  color:#d1d5db;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+.admin-name {
+  margin-top:4px;
+  font-size:21px;
+  font-weight:800;
+}
+
+.authorized {
+  margin-top:6px;
+  color:#7ee2b8;
+  font-size:11px;
+  font-weight:700;
+}
+
+.menu-title {
+  margin:5px 0 18px;
+  text-align:center;
+  font-size:14px;
+  font-weight:800;
+  color:var(--secondary);
+}
+
+.admin-menu-button {
+  width:100%;
+  min-height:88px;
+
+  margin-bottom:13px;
+  padding:17px;
+
+  display:flex;
+  align-items:center;
+  gap:15px;
+
+  border:1px solid var(--border);
+  border-radius:12px;
+
+  background:white;
+  color:var(--black);
+
+  text-align:left;
+  cursor:pointer;
+
+  box-shadow:0 2px 8px rgba(0,0,0,.035);
+}
+
+.admin-menu-button:hover {
+  border-color:#d3d7dc;
+}
+
+.menu-icon {
+  width:45px;
+  height:45px;
+
+  flex:none;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:10px;
+
+  background:#fceaea;
+  color:var(--red);
+
+  font-size:22px;
+  font-weight:800;
+}
+
+.menu-button-title {
+  font-size:15px;
+  font-weight:800;
+}
+
+.menu-button-description {
+  margin-top:3px;
+  color:var(--secondary);
+  font-size:11px;
+  line-height:1.4;
+}
+
+/* ADMIN ACTION */
+
+.admin-action-header {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.admin-action-title {
+  font-size:19px;
+  font-weight:800;
+}
+
+.admin-card {
+  padding:18px;
+
+  border:1px solid var(--border);
+  border-top:4px solid var(--red);
+
+  border-radius:11px;
+}
+
+.current-wo {
+  display:none;
+
+  margin:14px 0;
+  padding:13px;
+
+  background:#f7f8fa;
+
+  border:1px solid var(--border);
+  border-radius:8px;
+
+  font-size:12px;
+  line-height:1.5;
+}
+
+.footer {
+  padding:12px 18px 22px;
+  text-align:center;
+  color:#9ca3af;
+  font-size:9px;
+}
+
+@media(max-width:390px) {
+
+  .brand {
+    font-size:17px;
+  }
+
+  .detail-row {
+    grid-template-columns:1fr;
+    gap:2px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="topbar">
+
+  <div class="brand">
+    ADVANCED FIRE DOOR SYSTEMS
+  </div>
+
+  <div id="headerSubtitle" class="header-subtitle">
+    WORK ORDER TRACKER
+  </div>
+
+</header>
+
+
+<main id="mainContent" class="content"></main>
+
+
+<div class="footer">
+  Advanced Fire Door Systems
+</div>
+
+</div>
+
+
+<script type="module">
+
+import { createClient }
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+/* ==============================
+   SUPABASE
+============================== */
+
+const SUPABASE_URL =
+"https://pzqehkljifozdcntkphv.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_r40N0HlOLqupAvlfeqPI-w_HZy81xjM";
+
+const supabase =
+createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+
+const main =
+document.getElementById("mainContent");
+
+const headerSubtitle =
+document.getElementById("headerSubtitle");
+
+
+/* ==============================
+   ROUTING
+============================== */
+
+const path =
+window.location.pathname
+.toLowerCase()
+.replace(/\/+$/,"");
+
+const isAdmin =
+path === "/admin" ||
+path === "/admin.html";
+
+
+/* ==============================
+   HELPERS
+============================== */
+
+function formatDate(value) {
+
+  if (!value)
+    return "-";
+
+  const date =
+  new Date(value);
+
+  if (Number.isNaN(date.getTime()))
+    return value;
+
+  return date.toLocaleString(
+    "en-US",
+    {
+      month:"short",
+      day:"2-digit",
+      year:"numeric",
+      hour:"numeric",
+      minute:"2-digit"
+    }
+  );
+}
+
+
+function statusClass(status) {
+
+  const value =
+  (status || "").toLowerCase();
+
+  if (value.includes("completed"))
+    return "status-completed";
+
+  if (value.includes("parts"))
+    return "status-parts";
+
+  if (value.includes("door"))
+    return "status-door";
+
+  return "status-assigned";
+}
+
+
+/* ==============================
+   ENGINEERING LOGIN
+============================== */
+
+function renderEngineeringLogin() {
+
+  headerSubtitle.textContent =
+  "WORK ORDER TRACKER";
+
+  main.innerHTML = `
+
+    <div class="login-card">
+
+      <div class="login-icon">
+        🔐
+      </div>
+
+      <h1 class="login-title">
+        Door Record Access
+      </h1>
+
+      <p class="login-description">
+        Enter the DF Number and authorized access code.
+      </p>
+
+      <div class="form-group">
+
+        <label class="form-label">
+          DF NUMBER
+        </label>
+
+        <input
+          id="dfInput"
+          class="form-input"
+          type="text"
+          placeholder="Example: NT-M-486"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label class="form-label">
+          ACCESS CODE
+        </label>
+
+        <input
+          id="codeInput"
+          class="form-input"
+          type="password"
+          placeholder="Enter access code"
+        >
+
+      </div>
+
+      <div
+        id="engineeringMessage"
+        class="message">
+      </div>
+
+      <button
+        id="viewRecord"
+        class="primary-button">
+
+        VIEW DOOR RECORD
+
+      </button>
+
+    </div>
+  `;
+
+
+  document
+  .getElementById("viewRecord")
+  .addEventListener(
+    "click",
+    loadDoorRecord
+  );
+
+
+  document
+  .getElementById("codeInput")
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if (event.key === "Enter")
+        loadDoorRecord();
+
+    }
+  );
+
+}
+
+
+/* ==============================
+   LOAD DOOR
+============================== */
+
+async function loadDoorRecord() {
+
+  const df =
+  document.getElementById("dfInput")
+  .value
+  .trim()
+  .toUpperCase();
+
+  const code =
+  document.getElementById("codeInput")
+  .value
+  .trim();
+
+  const message =
+  document.getElementById(
+    "engineeringMessage"
+  );
+
+
+  if (!df || !code) {
+
+    message.textContent =
+    "Please enter the DF Number and Access Code.";
+
+    message.className =
+    "message error";
+
+    return;
+  }
+
+
+  const {data,error} =
+  await supabase.rpc(
+    "get_door_record",
+    {
+      p_df_number:df,
+      p_access_code:code
+    }
+  );
+
+
+  if (error || !data) {
+
+    message.textContent =
+    "Invalid DF Number or Access Code.";
+
+    message.className =
+    "message error";
+
+    return;
+  }
+
+
+  renderDoorRecord(
+    data.door,
+    data.work_orders || []
+  );
+
+}
+
+
+/* ==============================
+   DOOR RECORD
+============================== */
+
+function renderDoorRecord(
+  door,
+  workOrders
+) {
+
+  main.innerHTML = `
+
+    <div class="record-header">
+
+      <div>
+
+        <h1 class="df-number">
+          ${door.df_number || "-"}
+        </h1>
+
+        <div class="df-label">
+          Door Facility Record
+        </div>
+
+      </div>
+
+      <button
+        id="searchAgain"
+        class="small-button">
+
+        ← SEARCH
+
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <h2 class="section-title">
+        DOOR INFORMATION
+      </h2>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Facility
+        </div>
+
+        <div class="detail-value">
+          ${door.facility || "-"}
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Location
+        </div>
+
+        <div class="detail-value">
+          ${door.location || "-"}
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Door Type
+        </div>
+
+        <div class="detail-value">
+          ${door.door_type || "-"}
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Door Status
+        </div>
+
+        <div class="detail-value">
+          ${door.door_status || "-"}
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h2 class="section-title">
+        WORK ORDER HISTORY
+      </h2>
+
+      <div id="woList"></div>
+
+    </div>
+  `;
+
+
+  document
+  .getElementById("searchAgain")
+  .addEventListener(
+    "click",
+    renderEngineeringLogin
+  );
+
+
+  renderWorkOrders(
+    workOrders
+  );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/* ==============================
+   WO LIST
+============================== */
+
+function renderWorkOrders(workOrders) {
+
+  const container =
+  document.getElementById("woList");
+
+
+  if (!workOrders.length) {
+
+    container.innerHTML =
+    `<div style="font-size:12px;color:#6b7280;">
+       No work orders associated with this door.
+     </div>`;
+
+    return;
+  }
+
+
+  container.innerHTML =
+  workOrders.map(
+    (wo,index) => `
+
+      <div class="work-order">
+
+        <div class="wo-top">
+
+          <div class="wo-number">
+            WO #${wo.wo_number || "-"}
+          </div>
+
+          <span class="status ${statusClass(wo.status)}">
+            ${wo.status || "Assigned"}
+          </span>
+
+        </div>
+
+
+        <div class="wo-meta">
+
+          ${formatDate(wo.date_created)}
+
+          &nbsp;•&nbsp;
+
+          ${wo.priority || "-"}
+
+        </div>
+
+
+        <div class="wo-description">
+          ${wo.description || "-"}
+        </div>
+
+
+        <button
+          class="details-button"
+          data-index="${index}">
+
+          VIEW DETAILS
+
+        </button>
+
+
+        <div
+          id="woDetails${index}"
+          class="wo-details">
+
+
+          <div class="wo-detail">
+
+            <strong>
+              Requested By:
+            </strong>
+
+            ${wo.requester_name || "-"}
+
+          </div>
+
+
+          <div class="wo-detail">
+
+            <strong>
+              Assigned To:
+            </strong>
+
+            ${wo.assigned_to || "-"}
+
+          </div>
+
+
+          <div class="wo-detail">
+
+            <strong>
+              Location:
+            </strong>
+
+            ${wo.location || "-"}
+
+          </div>
+
+
+          <div class="wo-detail">
+
+            <strong>
+              Last Updated:
+            </strong>
+
+            ${formatDate(wo.last_updated)}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `
+  ).join("");
+
+
+  document
+  .querySelectorAll(".details-button")
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const details =
+          document.getElementById(
+            "woDetails" +
+            button.dataset.index
+          );
+
+          details.classList.toggle(
+            "visible"
+          );
+
+          button.textContent =
+          details.classList.contains(
+            "visible"
+          )
+          ? "HIDE DETAILS"
+          : "VIEW DETAILS";
+
+        }
+      );
+
+    }
+  );
+
+}
+
+
+/* ==============================
+   ADMIN LOGIN
+============================== */
+
+function renderAdminLogin(
+  errorMessage = ""
+) {
+
+  headerSubtitle.textContent =
+  "ADMIN PORTAL";
+
+
+  main.innerHTML = `
+
+    <div class="login-card">
+
+      <div class="login-icon">
+        🔐
+      </div>
+
+      <h1 class="login-title">
+        AFDS Admin
+      </h1>
+
+      <p class="login-description">
+        Authorized personnel only.
+      </p>
+
+
+      <div
+        id="adminMessage"
+        class="${errorMessage ? "message error" : "message"}">
+
+        ${errorMessage}
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          EMAIL
+        </label>
+
+        <input
+          id="adminEmail"
+          class="form-input"
+          type="email"
+          autocomplete="username"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          PASSWORD
+        </label>
+
+        <input
+          id="adminPassword"
+          class="form-input"
+          type="password"
+          autocomplete="current-password"
+        >
+
+      </div>
+
+
+      <button
+        id="adminLoginButton"
+        class="primary-button">
+
+        SIGN IN
+
+      </button>
+
+    </div>
+  `;
+
+
+  document
+  .getElementById("adminLoginButton")
+  .addEventListener(
+    "click",
+    adminLogin
+  );
+
+
+  document
+  .getElementById("adminPassword")
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if (event.key === "Enter")
+        adminLogin();
+
+    }
+  );
+
+}
+
+
+/* ==============================
+   ADMIN LOGIN ACTION
+============================== */
+
+async function adminLogin() {
+
+  const email =
+  document.getElementById("adminEmail")
+  .value
+  .trim();
+
+  const password =
+  document.getElementById("adminPassword")
+  .value;
+
+
+  const {data,error} =
+  await supabase.auth
+  .signInWithPassword({
+    email,
+    password
+  });
+
+
+  if (error || !data.user) {
+
+    renderAdminLogin(
+      "Invalid email or password."
+    );
+
+    return;
+  }
+
+
+  await verifyAdmin(
+    data.user
+  );
+
+}
+
+
+/* ==============================
+   VERIFY ADMIN
+============================== */
+
+async function verifyAdmin(user) {
+
+  const {data,error} =
+  await supabase
+  .from("admin_users")
+  .select("name,active")
+  .eq("user_id",user.id)
+  .eq("active",true)
+  .maybeSingle();
+
+
+  if (error || !data) {
+
+    await supabase.auth.signOut();
+
+    renderAdminLogin(
+      "This account is not authorized for AFDS Admin."
+    );
+
+    return;
+  }
+
+
+  renderAdminMenu(
+    data.name || "AFDS Admin"
+  );
+
+}
+
+
+/* ==============================
+   ADMIN MENU
+============================== */
+
+function renderAdminMenu(adminName) {
+
+  headerSubtitle.textContent =
+  "ADMIN PORTAL";
+
+
+  main.innerHTML = `
+
+    <div class="admin-header">
+
+      <div class="admin-label">
+        AFDS ADMINISTRATOR
+      </div>
+
+      <div class="admin-name">
+        ${adminName}
+      </div>
+
+      <div class="authorized">
+        ● Authorized Access
+      </div>
+
+    </div>
+
+
+    <div class="menu-title">
+      WHAT WOULD YOU LIKE TO DO?
+    </div>
+
+
+    <button
+      id="openAddWo"
+      class="admin-menu-button">
+
+      <div class="menu-icon">
+        +
+      </div>
+
+      <div>
+
+        <div class="menu-button-title">
+          ADD NEW WORK ORDER
+        </div>
+
+        <div class="menu-button-description">
+          Register a new hospital WO and associate it with a DF Number.
+        </div>
+
+      </div>
+
+    </button>
+
+
+    <button
+      id="openUpdateWo"
+      class="admin-menu-button">
+
+      <div class="menu-icon">
+        ↻
+      </div>
+
+      <div>
+
+        <div class="menu-button-title">
+          UPDATE WO STATUS
+        </div>
+
+        <div class="menu-button-description">
+          Search an existing Work Order and change its current status.
+        </div>
+
+      </div>
+
+    </button>
+
+
+    <button
+      id="logout"
+      class="secondary-button">
+
+      SIGN OUT
+
+    </button>
+  `;
+
+
+  document
+  .getElementById("openAddWo")
+  .addEventListener(
+    "click",
+    () =>
+      renderAddWorkOrder(adminName)
+  );
+
+
+  document
+  .getElementById("openUpdateWo")
+  .addEventListener(
+    "click",
+    () =>
+      renderUpdateStatus(adminName)
+  );
+
+
+  document
+  .getElementById("logout")
+  .addEventListener(
+    "click",
+    async () => {
+
+      await supabase.auth.signOut();
+
+      renderAdminLogin();
+
+    }
+  );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/* ==============================
+   ADD WORK ORDER SCREEN
+============================== */
+
+function renderAddWorkOrder(adminName) {
+
+  main.innerHTML = `
+
+    <div class="admin-action-header">
+
+      <button
+        id="backAdminMenu"
+        class="small-button">
+
+        ← BACK
+
+      </button>
+
+      <div class="admin-action-title">
+        Add New Work Order
+      </div>
+
+    </div>
+
+
+    <div class="admin-card">
+
+      <div id="addMessage" class="message"></div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          WO NUMBER
+        </label>
+
+        <input
+          id="newWo"
+          class="form-input"
+          type="text">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          DF NUMBER
+        </label>
+
+        <input
+          id="newDf"
+          class="form-input"
+          type="text"
+          placeholder="Example: NT-M-486">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          REQUESTER NAME
+        </label>
+
+        <input
+          id="newRequester"
+          class="form-input"
+          type="text">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          LOCATION
+        </label>
+
+        <input
+          id="newLocation"
+          class="form-input"
+          type="text">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          ASSIGNED TO
+        </label>
+
+        <input
+          id="newAssigned"
+          class="form-input"
+          type="text">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          DATE CREATED
+        </label>
+
+        <input
+          id="newDate"
+          class="form-input"
+          type="datetime-local">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          DESCRIPTION
+        </label>
+
+        <textarea
+          id="newDescription"
+          class="form-textarea">
+        </textarea>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          PRIORITY
+        </label>
+
+        <select
+          id="newPriority"
+          class="form-select">
+
+          <option value="Routine">
+            Routine
+          </option>
+
+          <option value="Urgent">
+            Urgent
+          </option>
+
+          <option value="Emergency">
+            Emergency
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          STATUS
+        </label>
+
+        <select
+          id="newStatus"
+          class="form-select">
+
+          <option value="Assigned">
+            Assigned
+          </option>
+
+          <option value="Parts on Order">
+            Parts on Order
+          </option>
+
+          <option value="Door on Order">
+            Door on Order
+          </option>
+
+          <option value="Completed">
+            Completed
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <button
+        id="saveWo"
+        class="primary-button">
+
+        SAVE WORK ORDER
+
+      </button>
+
+    </div>
+  `;
+
+
+  document
+  .getElementById("backAdminMenu")
+  .addEventListener(
+    "click",
+    () => renderAdminMenu(adminName)
+  );
+
+
+  document
+  .getElementById("saveWo")
+  .addEventListener(
+    "click",
+    () =>
+      saveNewWorkOrder(adminName)
+  );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/* ==============================
+   SAVE WORK ORDER
+============================== */
+
+async function saveNewWorkOrder(adminName) {
+
+  const message =
+  document.getElementById(
+    "addMessage"
+  );
+
+
+  const wo =
+  document.getElementById(
+    "newWo"
+  ).value.trim();
+
+
+  const df =
+  document.getElementById(
+    "newDf"
+  ).value.trim().toUpperCase();
+
+
+  if (!wo || !df) {
+
+    message.textContent =
+    "WO Number and DF Number are required.";
+
+    message.className =
+    "message error";
+
+    return;
+  }
+
+
+  const {
+    data:door,
+    error:doorError
+  } =
+  await supabase
+  .from("doors")
+  .select("df_number")
+  .eq("df_number",df)
+  .maybeSingle();
+
+
+  if (doorError || !door) {
+
+    message.textContent =
+    "DF Number not found.";
+
+    message.className =
+    "message error";
+
+    return;
+  }
+
+
+  const record = {
+
+    wo_number:wo,
+
+    df_number:df,
+
+    requester_name:
+    document.getElementById(
+      "newRequester"
+    ).value.trim(),
+
+    location:
+    document.getElementById(
+      "newLocation"
+    ).value.trim(),
+
+    assigned_to:
+    document.getElementById(
+      "newAssigned"
+    ).value.trim(),
+
+    description:
+    document.getElementById(
+      "newDescription"
+    ).value.trim(),
+
+    priority:
+    document.getElementById(
+      "newPriority"
+    ).value,
+
+    status:
+    document.getElementById(
+      "newStatus"
+    ).value,
+
+    last_updated:
+    new Date().toISOString()
+
+  };
+
+
+  const date =
+  document.getElementById(
+    "newDate"
+  ).value;
+
+
+  if (date)
+    record.date_created =
+    new Date(date).toISOString();
+
+
+  const {error} =
+  await supabase
+  .from("work_orders")
+  .insert(record);
+
+
+  if (error) {
+
+    message.textContent =
+    error.message;
+
+    message.className =
+    "message error";
+
+    return;
+  }
+
+
+  main.innerHTML = `
+
+    <div class="login-card">
+
+      <div class="login-icon">
+        ✓
+      </div>
+
+      <h1 class="login-title">
+        Work Order Created
+      </h1>
+
+      <p class="login-description">
+
+        WO #${wo} was successfully
+        associated with DF ${df}.
+
+      </p>
+
+
+      <button
+        id="addAnother"
+        class="primary-button">
+
+        ADD ANOTHER WO
+
+      </button>
+
+
+      <button
+        id="returnAdmin"
+        class="secondary-button">
+
+        BACK TO ADMIN
+
+      </button>
+
+    </div>
+  `;
+
+
+  document
+  .getElementById("addAnother")
+  .addEventListener(
+    "click",
+    () =>
+      renderAddWorkOrder(adminName)
+  );
+
+
+  document
+  .getElementById("returnAdmin")
+  .addEventListener(
+    "click",
+    () =>
+      renderAdminMenu(adminName)
+  );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/* ==============================
+   UPDATE STATUS SCREEN
+============================== */
+
+function renderUpdateStatus(adminName) {
+
+  selectedWorkOrder = null;
+
+
+  main.innerHTML = `
+
+    <div class="admin-action-header">
+
+      <button
+        id="backAdminMenu"
+        class="small-button">
+
+        ← BACK
+
+      </button>
+
+      <div class="admin-action-title">
+        Update WO Status
+      </div>
+
+    </div>
+
+
+    <div class="admin-card">
+
+      <div
+        id="updateMessage"
+        class="message">
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          WO NUMBER
+        </label>
+
+        <input
+          id="searchWo"
+          class="form-input"
+          type="text"
+          placeholder="Enter WO Number">
+
+      </div>
+
+
+      <button
+        id="findWo"
+        class="primary-button">
+
+        SEARCH WORK ORDER
+
+      </button>
+
+
+      <div
+        id="currentWo"
+        class="current-wo">
+      </div>
+
+
+      <div
+        id="statusControls"
+        style="display:none;">
+
+
+        <div class="form-group">
+
+          <label class="form-label">
+            NEW STATUS
+          </label>
+
+          <select
+            id="statusSelect"
+            class="form-select">
+
+            <option value="Assigned">
+              Assigned
+            </option>
+
+            <option value="Parts on Order">
+              Parts on Order
+            </option>
+
+            <option value="Door on Order">
+              Door on Order
+            </option>
+
+            <option value="Completed">
+              Completed
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <button
+          id="saveStatus"
+          class="primary-button">
+
+          SAVE STATUS
+
+        </button>
+
+      </div>
+
+    </div>
+  `;
+
+
+  document
+  .getElementById("backAdminMenu")
+  .addEventListener(
+    "click",
+    () => renderAdminMenu(adminName)
+  );
+
+
+  document
+  .getElementById("findWo")
+  .addEventListener(
+    "click",
+    findWorkOrder
+  );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/* ==============================
+   FIND WO
+============================== */
+
+let selectedWorkOrder =
+null;
+
+
+async function findWorkOrder() {
+
+  const message =
+  document.getElementById(
+    "updateMessage"
+  );
+
+
+  const wo =
+  document.getElementById(
+    "searchWo"
+  ).value.trim();
+
+
+  if (!wo) {
+
+    message.textContent =
+    "Enter a WO Number.";
+
+    message.className =
+    "message error";
+
+    return;
+  }
+
+
+  const {data,error} =
+  await supabase
+  .from("work_orders")
+  .select(
+    "wo_number,df_number,status,location,description"
+  )
+  .eq("wo_number",wo)
+  .maybeSingle();
+
+
+  if (error || !data) {
+
+    message.textContent =
+    "Work Order not found.";
+
+    message.className =
+    "message error";
+
+    return;
+  }
+
+
+  selectedWorkOrder =
+  data;
+
+
+  message.textContent =
+  "";
+
+  message.className =
+  "message";
+
+
+  const current =
+  document.getElementById(
+    "currentWo"
+  );
+
+
+  current.style.display =
+  "block";
+
+
+  current.innerHTML = `
+
+    <strong>
+      WO #${data.wo_number}
+    </strong>
+
+    <br><br>
+
+    <strong>
+      DF:
+    </strong>
+
+    ${data.df_number || "-"}
+
+    <br>
+
+    <strong>
+      Location:
+    </strong>
+
+    ${data.location || "-"}
+
+    <br>
+
+    <strong>
+      Current Status:
+    </strong>
+
+    ${data.status || "Assigned"}
+
+    <br><br>
+
+    ${data.description || ""}
+
+  `;
+
+
+  document
+  .getElementById(
+    "statusControls"
+  ).style.display =
+  "block";
+
+
+  const statuses = [
+    "Assigned",
+    "Parts on Order",
+    "Door on Order",
+    "Completed"
+  ];
+
+
+  document
+  .getElementById(
+    "statusSelect"
+  ).value =
+  statuses.includes(data.status)
+  ? data.status
+  : "Assigned";
+
+
+  document
+  .getElementById(
+    "saveStatus"
+  ).onclick =
+  updateWorkOrderStatus;
+
+}
+
+
+/* ==============================
+   UPDATE STATUS
+============================== */
+
+async function updateWorkOrderStatus() {
+
+  if (!selectedWorkOrder)
+    return;
+
+
+  const message =
+  document.getElementById(
+    "updateMessage"
+  );
+
+
+  const status =
+  document.getElementById(
+    "statusSelect"
+  ).value;
+
+
+  const {error} =
+  await supabase
+  .from("work_orders")
+  .update({
+    status:status,
+    last_updated:
+    new Date().toISOString()
+  })
+  .eq(
+    "wo_number",
+    selectedWorkOrder.wo_number
+  );
+
+
+  if (error) {
+
+    message.textContent =
+    error.message;
+
+    message.className =
+    "message error";
+
+    return;
+  }
+
+
+  selectedWorkOrder.status =
+  status;
+
+
+  message.textContent =
+  `WO #${selectedWorkOrder.wo_number} updated to ${status}.`;
+
+  message.className =
+  "message success";
+
+
+  document
+  .getElementById(
+    "currentWo"
+  ).innerHTML = `
+
+    <strong>
+      WO #${selectedWorkOrder.wo_number}
+    </strong>
+
+    <br><br>
+
+    <strong>
+      DF:
+    </strong>
+
+    ${selectedWorkOrder.df_number || "-"}
+
+    <br>
+
+    <strong>
+      Location:
+    </strong>
+
+    ${selectedWorkOrder.location || "-"}
+
+    <br>
+
+    <strong>
+      Current Status:
+    </strong>
+
+    ${status}
+
+    <br><br>
+
+    ${selectedWorkOrder.description || ""}
+
+  `;
+
+}
+
+
+/* ==============================
+   START
+============================== */
+
+async function startApp() {
+
+  if (!isAdmin) {
+
+    renderEngineeringLogin();
+
+    return;
+
+  }
+
+
+  const {
+    data:{
+      session
+    }
+  } =
+  await supabase.auth
+  .getSession();
+
+
+  if (
+    session &&
+    session.user
+  ) {
+
+    await verifyAdmin(
+      session.user
+    );
+
+  } else {
+
+    renderAdminLogin();
+
+  }
+
+}
+
+
+startApp();
+
+</script>
+
+</body>
+
+</html><!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
