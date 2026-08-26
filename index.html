@@ -1,5 +1,1546 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AFDS | Work Order Tracker</title>
+
+<style>
+* { box-sizing: border-box; }
+
+:root {
+  --black:#171717;
+  --red:#c62828;
+  --red-dark:#9f1f1f;
+  --background:#f5f6f8;
+  --white:#ffffff;
+  --text:#202124;
+  --secondary:#6b7280;
+  --border:#e2e5e9;
+  --green:#15805c;
+  --green-light:#eaf8f1;
+  --orange:#c66a00;
+  --orange-light:#fff5e6;
+  --purple:#7c3aed;
+  --purple-light:#f5f0ff;
+}
+
+body {
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:var(--background);
+  color:var(--text);
+}
+
+button,input,select,textarea { font:inherit; }
+
+.app {
+  width:100%;
+  max-width:600px;
+  min-height:100vh;
+  margin:auto;
+  background:white;
+}
+
+.topbar {
+  padding:25px 26px 20px;
+  background:var(--black);
+  border-bottom:5px solid var(--red);
+}
+
+.brand {
+  color:white;
+  font-size:21px;
+  font-weight:800;
+}
+
+.subtitle {
+  margin-top:5px;
+  color:#d1d5db;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1.5px;
+}
+
+.hidden { display:none !important; }
+
+.login-wrapper {
+  padding:45px 20px;
+}
+
+.login-card,
+.card,
+.admin-card {
+  background:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:0 4px 18px rgba(0,0,0,.05);
+}
+
+.login-card {
+  padding:28px 24px;
+}
+
+.login-icon {
+  width:54px;
+  height:54px;
+  margin:0 auto 16px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius:50%;
+  background:#fceaea;
+  font-size:24px;
+}
+
+.login-title {
+  margin:0;
+  text-align:center;
+  font-size:23px;
+  font-weight:800;
+}
+
+.login-subtitle {
+  margin:8px 0 26px;
+  text-align:center;
+  color:var(--secondary);
+  font-size:13px;
+  line-height:1.5;
+}
+
+.form-group { margin-bottom:17px; }
+
+.form-label {
+  display:block;
+  margin-bottom:7px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.5px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width:100%;
+  border:1px solid #cfd5dd;
+  border-radius:8px;
+  outline:none;
+  background:white;
+}
+
+.form-input,
+.form-select {
+  height:49px;
+  padding:0 13px;
+}
+
+.form-textarea {
+  min-height:100px;
+  padding:12px 13px;
+  resize:vertical;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color:var(--red);
+  box-shadow:0 0 0 3px rgba(198,40,40,.08);
+}
+
+.primary-button {
+  width:100%;
+  min-height:49px;
+  border:none;
+  border-radius:8px;
+  background:var(--red);
+  color:white;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.primary-button:hover { background:var(--red-dark); }
+
+.primary-button:disabled {
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.secondary-button {
+  width:100%;
+  min-height:44px;
+  margin-top:10px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.message {
+  display:none;
+  margin:14px 0;
+  padding:12px;
+  border-radius:8px;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.message.error {
+  display:block;
+  background:#fff0ee;
+  color:#a81c13;
+}
+
+.message.success {
+  display:block;
+  background:var(--green-light);
+  color:var(--green);
+}
+
+.door-header { padding:26px 25px 12px; }
+
+.df-number {
+  margin:0;
+  font-size:36px;
+  font-weight:850;
+}
+
+.door-label {
+  margin-top:3px;
+  color:var(--secondary);
+  font-size:13px;
+}
+
+.card {
+  margin:16px 18px;
+  padding:20px;
+  border-top:3px solid var(--red);
+}
+
+.section-title {
+  margin:0 0 18px;
+  font-size:16px;
+  font-weight:800;
+}
+
+.detail-row {
+  display:grid;
+  grid-template-columns:40% 60%;
+  gap:12px;
+  padding:9px 0;
+  border-bottom:1px solid #f1f2f4;
+}
+
+.detail-label {
+  color:var(--secondary);
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+.detail-value { font-size:14px; }
+
+.work-order {
+  margin-bottom:14px;
+  padding:16px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#fafbfc;
+}
+
+.wo-top {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.wo-number {
+  font-size:18px;
+  font-weight:850;
+}
+
+.status {
+  padding:6px 9px;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:850;
+  text-transform:uppercase;
+}
+
+.status-assigned {
+  background:#f1f5f9;
+  color:#475569;
+}
+
+.status-parts {
+  background:var(--orange-light);
+  color:var(--orange);
+}
+
+.status-door {
+  background:var(--purple-light);
+  color:var(--purple);
+}
+
+.status-completed {
+  background:var(--green-light);
+  color:var(--green);
+}
+
+.wo-meta {
+  margin-top:8px;
+  color:var(--secondary);
+  font-size:11px;
+}
+
+.wo-description {
+  margin-top:11px;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.wo-details {
+  margin-top:12px;
+  padding-top:11px;
+  border-top:1px solid #eceef1;
+}
+
+.wo-detail {
+  margin:5px 0;
+  font-size:12px;
+}
+
+.admin-panel {
+  padding:24px 18px 40px;
+}
+
+.admin-welcome {
+  margin-bottom:20px;
+  padding:20px;
+  background:var(--black);
+  color:white;
+  border-radius:12px;
+}
+
+.admin-small {
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1px;
+  color:#d1d5db;
+}
+
+.admin-name {
+  margin-top:5px;
+  font-size:24px;
+  font-weight:800;
+}
+
+.authorized {
+  margin-top:8px;
+  color:#7ee2b8;
+  font-size:12px;
+  font-weight:700;
+}
+
+.admin-card {
+  margin-bottom:18px;
+  padding:21px;
+  border-top:4px solid var(--red);
+}
+
+.admin-card-title {
+  margin:0 0 5px;
+  font-size:18px;
+  font-weight:800;
+}
+
+.admin-card-description {
+  margin:0 0 22px;
+  color:var(--secondary);
+  font-size:12px;
+  line-height:1.5;
+}
+
+.current-wo {
+  display:none;
+  margin:17px 0;
+  padding:15px;
+  background:#f7f8fa;
+  border:1px solid var(--border);
+  border-radius:9px;
+}
+
+.current-wo.show { display:block; }
+
+.current-wo-number {
+  font-size:18px;
+  font-weight:800;
+}
+
+.current-info {
+  margin-top:6px;
+  color:var(--secondary);
+  font-size:12px;
+  line-height:1.5;
+}
+
+.footer {
+  padding:20px;
+  text-align:center;
+  color:#9ca3af;
+  font-size:10px;
+}
+
+@media(max-width:390px) {
+  .brand { font-size:18px; }
+  .detail-row {
+    grid-template-columns:1fr;
+    gap:3px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="topbar">
+  <div class="brand">ADVANCED FIRE DOOR SYSTEMS</div>
+  <div id="headerSubtitle" class="subtitle">WORK ORDER TRACKER</div>
+</header>
+
+
+<!-- ENGINEERING -->
+
+<section id="engineeringModule">
+
+  <section id="engineeringLogin" class="login-wrapper">
+    <div class="login-card">
+
+      <div class="login-icon">🔐</div>
+
+      <h1 class="login-title">Door Record Access</h1>
+
+      <p class="login-subtitle">
+        Enter the Door Facility Number and your authorized access code
+        to view the work order history.
+      </p>
+
+      <div class="form-group">
+        <label class="form-label">DF NUMBER</label>
+        <input id="dfInput" class="form-input"
+               type="text" placeholder="Example: NT-M-486">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ACCESS CODE</label>
+        <input id="codeInput" class="form-input"
+               type="password" placeholder="Enter access code">
+      </div>
+
+      <div id="engineeringMessage" class="message"></div>
+
+      <button id="viewRecord" class="primary-button">
+        VIEW DOOR RECORD
+      </button>
+
+    </div>
+  </section>
+
+
+  <section id="doorRecord" class="hidden">
+
+    <div class="door-header">
+      <h1 id="dfNumber" class="df-number"></h1>
+      <div class="door-label">Door Facility Record</div>
+    </div>
+
+    <div class="card">
+
+      <h2 class="section-title">DOOR INFORMATION</h2>
+
+      <div class="detail-row">
+        <div class="detail-label">Facility</div>
+        <div id="facility" class="detail-value"></div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">Location</div>
+        <div id="location" class="detail-value"></div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">Door Type</div>
+        <div id="doorType" class="detail-value"></div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">Door Status</div>
+        <div id="doorStatus" class="detail-value"></div>
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <h2 class="section-title">WORK ORDER HISTORY</h2>
+
+      <div id="woHistory"></div>
+
+      <button id="searchAnother" class="secondary-button">
+        SEARCH ANOTHER DOOR
+      </button>
+
+    </div>
+
+  </section>
+
+</section>
+
+
+<!-- ADMIN -->
+
+<section id="adminModule" class="hidden">
+
+  <section id="adminLogin" class="login-wrapper">
+
+    <div class="login-card">
+
+      <div class="login-icon">🔐</div>
+
+      <h1 class="login-title">AFDS Admin</h1>
+
+      <p class="login-subtitle">
+        Authorized personnel only.
+        Sign in to manage work orders.
+      </p>
+
+      <div id="adminMessage" class="message"></div>
+
+      <div class="form-group">
+        <label class="form-label">EMAIL</label>
+        <input id="adminEmail" class="form-input"
+               type="email" autocomplete="username"
+               placeholder="Email address">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">PASSWORD</label>
+        <input id="adminPassword" class="form-input"
+               type="password" autocomplete="current-password"
+               placeholder="Password">
+      </div>
+
+      <button id="adminLoginButton" class="primary-button">
+        SIGN IN
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <section id="adminPanel" class="admin-panel hidden">
+
+    <div class="admin-welcome">
+
+      <div class="admin-small">AFDS ADMINISTRATOR</div>
+
+      <div id="adminName" class="admin-name">
+        AFDS Admin
+      </div>
+
+      <div class="authorized">
+        ● Authorized Access
+      </div>
+
+    </div>
+
+
+    <!-- ADD NEW WO -->
+
+    <div class="admin-card">
+
+      <h2 class="admin-card-title">
+        Add New Work Order
+      </h2>
+
+      <p class="admin-card-description">
+        Register a new hospital work order and associate it
+        with the corresponding DF Number.
+      </p>
+
+      <div id="addWoMessage" class="message"></div>
+
+      <div class="form-group">
+        <label class="form-label">WO NUMBER</label>
+        <input id="newWoNumber" class="form-input"
+               type="text" placeholder="Example: 458721">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">DF NUMBER</label>
+        <input id="newDfNumber" class="form-input"
+               type="text" placeholder="Example: NT-M-486">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">REQUESTER NAME</label>
+        <input id="newRequester" class="form-input"
+               type="text" placeholder="Requester name">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">LOCATION</label>
+        <input id="newLocation" class="form-input"
+               type="text" placeholder="Hospital location">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ASSIGNED TO</label>
+        <input id="newAssignedTo" class="form-input"
+               type="text" placeholder="Assigned technician">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">DATE CREATED</label>
+        <input id="newDateCreated" class="form-input"
+               type="datetime-local">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">DESCRIPTION</label>
+        <textarea id="newDescription"
+                  class="form-textarea"
+                  placeholder="Work order description"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">PRIORITY</label>
+
+        <select id="newPriority" class="form-select">
+          <option value="Routine">Routine</option>
+          <option value="Urgent">Urgent</option>
+          <option value="Emergency">Emergency</option>
+        </select>
+
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">STATUS</label>
+
+        <select id="newStatus" class="form-select">
+          <option value="Assigned">Assigned</option>
+          <option value="Parts on Order">Parts on Order</option>
+          <option value="Door on Order">Door on Order</option>
+          <option value="Completed">Completed</option>
+        </select>
+
+      </div>
+
+      <button id="saveWoButton" class="primary-button">
+        SAVE WORK ORDER
+      </button>
+
+    </div>
+
+
+    <!-- UPDATE STATUS -->
+
+    <div class="admin-card">
+
+      <h2 class="admin-card-title">
+        Update Work Order Status
+      </h2>
+
+      <p class="admin-card-description">
+        Search an existing WO and update its current status.
+      </p>
+
+      <div id="updateWoMessage" class="message"></div>
+
+      <div class="form-group">
+        <label class="form-label">WO NUMBER</label>
+
+        <input id="searchWoNumber"
+               class="form-input"
+               type="text"
+               placeholder="Enter WO Number">
+      </div>
+
+      <button id="searchWoButton" class="secondary-button">
+        SEARCH WORK ORDER
+      </button>
+
+
+      <div id="currentWoBox" class="current-wo">
+
+        <div id="currentWoNumber"
+             class="current-wo-number"></div>
+
+        <div id="currentWoInfo"
+             class="current-info"></div>
+
+      </div>
+
+
+      <div id="statusUpdateControls" class="hidden">
+
+        <div class="form-group">
+
+          <label class="form-label">
+            NEW STATUS
+          </label>
+
+          <select id="updateStatus"
+                  class="form-select">
+
+            <option value="Assigned">
+              Assigned
+            </option>
+
+            <option value="Parts on Order">
+              Parts on Order
+            </option>
+
+            <option value="Door on Order">
+              Door on Order
+            </option>
+
+            <option value="Completed">
+              Completed
+            </option>
+
+          </select>
+
+        </div>
+
+        <button id="updateStatusButton"
+                class="primary-button">
+
+          SAVE STATUS
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <button id="logoutButton" class="secondary-button">
+      SIGN OUT
+    </button>
+
+  </section>
+
+</section>
+
+
+<div class="footer">
+  Advanced Fire Door Systems
+</div>
+
+</div>
+
+
+<script type="module">
+
+import { createClient }
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+const SUPABASE_URL =
+"https://pzqehkljifozdcntkphv.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_r40N0HlOLqupAvlfeqPI-w_HZy81xjM";
+
+const supabase =
+createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+
+/* ROUTING */
+
+const currentPath =
+window.location.pathname
+.toLowerCase()
+.replace(/\/+$/, "");
+
+const isAdmin =
+currentPath === "/admin" ||
+currentPath === "/admin.html";
+
+const engineeringModule =
+document.getElementById("engineeringModule");
+
+const adminModule =
+document.getElementById("adminModule");
+
+const headerSubtitle =
+document.getElementById("headerSubtitle");
+
+if (isAdmin) {
+
+  engineeringModule.classList.add("hidden");
+  adminModule.classList.remove("hidden");
+
+  headerSubtitle.textContent =
+  "ADMIN PORTAL";
+
+  checkAdminSession();
+
+} else {
+
+  adminModule.classList.add("hidden");
+  engineeringModule.classList.remove("hidden");
+
+}
+
+
+/* HELPERS */
+
+function showMessage(element,text,type) {
+
+  element.textContent = text;
+  element.className = "message " + type;
+
+}
+
+function clearMessage(element) {
+
+  element.textContent = "";
+  element.className = "message";
+
+}
+
+function formatDate(value) {
+
+  if (!value) return "-";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime()))
+    return value;
+
+  return date.toLocaleString(
+    "en-US",
+    {
+      month:"short",
+      day:"2-digit",
+      year:"numeric",
+      hour:"numeric",
+      minute:"2-digit"
+    }
+  );
+
+}
+
+function statusClass(status) {
+
+  const value =
+  (status || "").toLowerCase();
+
+  if (value.includes("completed"))
+    return "status-completed";
+
+  if (value.includes("parts"))
+    return "status-parts";
+
+  if (value.includes("door"))
+    return "status-door";
+
+  return "status-assigned";
+
+}
+
+
+/* ENGINEERING */
+
+document
+.getElementById("viewRecord")
+.addEventListener(
+  "click",
+  loadDoorRecord
+);
+
+document
+.getElementById("codeInput")
+.addEventListener(
+  "keydown",
+  e => {
+    if (e.key === "Enter")
+      loadDoorRecord();
+  }
+);
+
+async function loadDoorRecord() {
+
+  const df =
+  document.getElementById("dfInput")
+  .value.trim().toUpperCase();
+
+  const code =
+  document.getElementById("codeInput")
+  .value.trim();
+
+  const message =
+  document.getElementById(
+    "engineeringMessage"
+  );
+
+  clearMessage(message);
+
+  if (!df || !code) {
+
+    showMessage(
+      message,
+      "Please enter the DF Number and Access Code.",
+      "error"
+    );
+
+    return;
+  }
+
+  const {data,error} =
+  await supabase.rpc(
+    "get_door_record",
+    {
+      p_df_number:df,
+      p_access_code:code
+    }
+  );
+
+  if (error || !data) {
+
+    showMessage(
+      message,
+      "Invalid DF Number or Access Code.",
+      "error"
+    );
+
+    return;
+  }
+
+  const door = data.door;
+  const workOrders =
+  data.work_orders || [];
+
+  document.getElementById("dfNumber")
+  .textContent = door.df_number;
+
+  document.getElementById("facility")
+  .textContent = door.facility || "-";
+
+  document.getElementById("location")
+  .textContent = door.location || "-";
+
+  document.getElementById("doorType")
+  .textContent = door.door_type || "-";
+
+  document.getElementById("doorStatus")
+  .textContent = door.door_status || "-";
+
+  renderWorkOrders(workOrders);
+
+  document.getElementById(
+    "engineeringLogin"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "doorRecord"
+  ).classList.remove("hidden");
+
+}
+
+function renderWorkOrders(workOrders) {
+
+  const container =
+  document.getElementById("woHistory");
+
+  container.innerHTML = "";
+
+  if (!workOrders.length) {
+
+    container.innerHTML =
+    "<p>No work orders associated with this door.</p>";
+
+    return;
+  }
+
+  workOrders.forEach(wo => {
+
+    const item =
+    document.createElement("div");
+
+    item.className = "work-order";
+
+    item.innerHTML = `
+
+      <div class="wo-top">
+
+        <div class="wo-number">
+          WO #${wo.wo_number}
+        </div>
+
+        <span class="status ${statusClass(wo.status)}">
+          ${wo.status || "Assigned"}
+        </span>
+
+      </div>
+
+      <div class="wo-meta">
+        ${formatDate(wo.date_created)}
+        •
+        ${wo.priority || "-"}
+      </div>
+
+      <div class="wo-description">
+        ${wo.description || "-"}
+      </div>
+
+      <div class="wo-details">
+
+        <div class="wo-detail">
+          <strong>Requested By:</strong>
+          ${wo.requester_name || "-"}
+        </div>
+
+        <div class="wo-detail">
+          <strong>Assigned To:</strong>
+          ${wo.assigned_to || "-"}
+        </div>
+
+        <div class="wo-detail">
+          <strong>Last Updated:</strong>
+          ${formatDate(wo.last_updated)}
+        </div>
+
+      </div>
+    `;
+
+    container.appendChild(item);
+
+  });
+
+}
+
+document
+.getElementById("searchAnother")
+.addEventListener(
+  "click",
+  () => {
+
+    document.getElementById(
+      "doorRecord"
+    ).classList.add("hidden");
+
+    document.getElementById(
+      "engineeringLogin"
+    ).classList.remove("hidden");
+
+  }
+);
+
+
+/* ADMIN AUTH */
+
+const adminMessage =
+document.getElementById("adminMessage");
+
+async function verifyAdmin(user) {
+
+  const {data,error} =
+  await supabase
+  .from("admin_users")
+  .select("name,active")
+  .eq("user_id",user.id)
+  .eq("active",true)
+  .maybeSingle();
+
+  if (error || !data) {
+
+    await supabase.auth.signOut();
+
+    showMessage(
+      adminMessage,
+      "This account is not authorized for AFDS Admin.",
+      "error"
+    );
+
+    return false;
+  }
+
+  document.getElementById(
+    "adminName"
+  ).textContent =
+  data.name || "AFDS Admin";
+
+  document.getElementById(
+    "adminLogin"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "adminPanel"
+  ).classList.remove("hidden");
+
+  return true;
+
+}
+
+document
+.getElementById("adminLoginButton")
+.addEventListener(
+  "click",
+  adminLogin
+);
+
+async function adminLogin() {
+
+  clearMessage(adminMessage);
+
+  const email =
+  document.getElementById(
+    "adminEmail"
+  ).value.trim();
+
+  const password =
+  document.getElementById(
+    "adminPassword"
+  ).value;
+
+  const {data,error} =
+  await supabase.auth
+  .signInWithPassword({
+    email,
+    password
+  });
+
+  if (error || !data.user) {
+
+    showMessage(
+      adminMessage,
+      "Invalid email or password.",
+      "error"
+    );
+
+    return;
+  }
+
+  await verifyAdmin(data.user);
+
+}
+
+async function checkAdminSession() {
+
+  const {data:{session}} =
+  await supabase.auth.getSession();
+
+  if (session?.user)
+    await verifyAdmin(session.user);
+
+}
+
+document
+.getElementById("logoutButton")
+.addEventListener(
+  "click",
+  async () => {
+
+    await supabase.auth.signOut();
+
+    location.reload();
+
+  }
+);
+
+
+/* ADD WORK ORDER */
+
+document
+.getElementById("saveWoButton")
+.addEventListener(
+  "click",
+  saveWorkOrder
+);
+
+async function saveWorkOrder() {
+
+  const message =
+  document.getElementById(
+    "addWoMessage"
+  );
+
+  clearMessage(message);
+
+  const woNumber =
+  document.getElementById(
+    "newWoNumber"
+  ).value.trim();
+
+  const dfNumber =
+  document.getElementById(
+    "newDfNumber"
+  ).value.trim().toUpperCase();
+
+  if (!woNumber || !dfNumber) {
+
+    showMessage(
+      message,
+      "WO Number and DF Number are required.",
+      "error"
+    );
+
+    return;
+  }
+
+  /*
+    Validate that DF exists.
+    Requires authenticated admin SELECT
+    access to doors.
+  */
+
+  const {
+    data:door,
+    error:doorError
+  } =
+  await supabase
+  .from("doors")
+  .select("df_number")
+  .eq("df_number",dfNumber)
+  .maybeSingle();
+
+  if (doorError) {
+
+    console.error(doorError);
+
+    showMessage(
+      message,
+      "Unable to verify the DF Number. Check the admin SELECT policy for the doors table.",
+      "error"
+    );
+
+    return;
+  }
+
+  if (!door) {
+
+    showMessage(
+      message,
+      "DF Number not found. Create the door record first.",
+      "error"
+    );
+
+    return;
+  }
+
+  const record = {
+
+    wo_number:woNumber,
+
+    df_number:dfNumber,
+
+    requester_name:
+    document.getElementById(
+      "newRequester"
+    ).value.trim(),
+
+    location:
+    document.getElementById(
+      "newLocation"
+    ).value.trim(),
+
+    assigned_to:
+    document.getElementById(
+      "newAssignedTo"
+    ).value.trim(),
+
+    description:
+    document.getElementById(
+      "newDescription"
+    ).value.trim(),
+
+    priority:
+    document.getElementById(
+      "newPriority"
+    ).value,
+
+    status:
+    document.getElementById(
+      "newStatus"
+    ).value
+
+  };
+
+  const dateValue =
+  document.getElementById(
+    "newDateCreated"
+  ).value;
+
+  if (dateValue)
+    record.date_created =
+    new Date(dateValue).toISOString();
+
+  const {error} =
+  await supabase
+  .from("work_orders")
+  .insert(record);
+
+  if (error) {
+
+    console.error(error);
+
+    showMessage(
+      message,
+      "Unable to save the work order: " +
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  showMessage(
+    message,
+    `WO #${woNumber} was successfully created for ${dfNumber}.`,
+    "success"
+  );
+
+  [
+    "newWoNumber",
+    "newDfNumber",
+    "newRequester",
+    "newLocation",
+    "newAssignedTo",
+    "newDateCreated",
+    "newDescription"
+  ].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+
+  document.getElementById(
+    "newPriority"
+  ).value = "Routine";
+
+  document.getElementById(
+    "newStatus"
+  ).value = "Assigned";
+
+}
+
+
+/* SEARCH / UPDATE STATUS */
+
+let selectedWorkOrder = null;
+
+document
+.getElementById("searchWoButton")
+.addEventListener(
+  "click",
+  searchWorkOrder
+);
+
+async function searchWorkOrder() {
+
+  const message =
+  document.getElementById(
+    "updateWoMessage"
+  );
+
+  clearMessage(message);
+
+  const woNumber =
+  document.getElementById(
+    "searchWoNumber"
+  ).value.trim();
+
+  if (!woNumber) {
+
+    showMessage(
+      message,
+      "Enter a WO Number.",
+      "error"
+    );
+
+    return;
+  }
+
+  const {data,error} =
+  await supabase
+  .from("work_orders")
+  .select(
+    "wo_number,df_number,status,location,description"
+  )
+  .eq("wo_number",woNumber)
+  .maybeSingle();
+
+  if (error) {
+
+    console.error(error);
+
+    showMessage(
+      message,
+      "Unable to search work orders. Check the admin SELECT policy for work_orders.",
+      "error"
+    );
+
+    return;
+  }
+
+  if (!data) {
+
+    showMessage(
+      message,
+      "Work Order not found.",
+      "error"
+    );
+
+    return;
+  }
+
+  selectedWorkOrder = data;
+
+  document.getElementById(
+    "currentWoNumber"
+  ).textContent =
+  "WO #" + data.wo_number;
+
+  document.getElementById(
+    "currentWoInfo"
+  ).innerHTML =
+  `
+    <strong>DF:</strong>
+    ${data.df_number || "-"}
+    <br>
+
+    <strong>Location:</strong>
+    ${data.location || "-"}
+    <br>
+
+    <strong>Current Status:</strong>
+    ${data.status || "Assigned"}
+    <br>
+
+    <strong>Description:</strong>
+    ${data.description || "-"}
+  `;
+
+  document.getElementById(
+    "currentWoBox"
+  ).classList.add("show");
+
+  document.getElementById(
+    "statusUpdateControls"
+  ).classList.remove("hidden");
+
+  const allowedStatuses = [
+    "Assigned",
+    "Parts on Order",
+    "Door on Order",
+    "Completed"
+  ];
+
+  document.getElementById(
+    "updateStatus"
+  ).value =
+  allowedStatuses.includes(data.status)
+  ? data.status
+  : "Assigned";
+
+}
+
+
+document
+.getElementById("updateStatusButton")
+.addEventListener(
+  "click",
+  updateWorkOrderStatus
+);
+
+async function updateWorkOrderStatus() {
+
+  if (!selectedWorkOrder)
+    return;
+
+  const message =
+  document.getElementById(
+    "updateWoMessage"
+  );
+
+  clearMessage(message);
+
+  const newStatus =
+  document.getElementById(
+    "updateStatus"
+  ).value;
+
+  const {error} =
+  await supabase
+  .from("work_orders")
+  .update({
+    status:newStatus,
+    last_updated:
+    new Date().toISOString()
+  })
+  .eq(
+    "wo_number",
+    selectedWorkOrder.wo_number
+  );
+
+  if (error) {
+
+    console.error(error);
+
+    showMessage(
+      message,
+      "Unable to update the Work Order: " +
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  selectedWorkOrder.status =
+  newStatus;
+
+  showMessage(
+    message,
+    `WO #${selectedWorkOrder.wo_number} updated to "${newStatus}".`,
+    "success"
+  );
+
+  document.getElementById(
+    "currentWoInfo"
+  ).innerHTML =
+  `
+    <strong>DF:</strong>
+    ${selectedWorkOrder.df_number || "-"}
+    <br>
+
+    <strong>Location:</strong>
+    ${selectedWorkOrder.location || "-"}
+    <br>
+
+    <strong>Current Status:</strong>
+    ${newStatus}
+    <br>
+
+    <strong>Description:</strong>
+    ${selectedWorkOrder.description || "-"}
+  `;
+
+}
+
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
