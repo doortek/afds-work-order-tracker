@@ -3,6 +3,920 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AFDS | Work Order Tracker</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* AFDS BRAND */
+      --afds-black: #171717;
+      --afds-dark: #242424;
+      --afds-red: #c62828;
+      --afds-red-dark: #9f1f1f;
+      --afds-red-light: #fceaea;
+
+      /* STATUS */
+      --assigned: #475569;
+      --assigned-bg: #f1f5f9;
+
+      --progress: #2563eb;
+      --progress-bg: #eff6ff;
+
+      --parts: #c66a00;
+      --parts-bg: #fff5e6;
+
+      --door: #7c3aed;
+      --door-bg: #f5f0ff;
+
+      --completed: #14845c;
+      --completed-bg: #eaf8f1;
+
+      /* UI */
+      --text: #202124;
+      --secondary: #6b7280;
+      --border: #e2e5e9;
+      --background: #f5f6f8;
+      --white: #ffffff;
+    }
+
+    body {
+      margin: 0;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      background: var(--background);
+      color: var(--text);
+    }
+
+    .app {
+      width: 100%;
+      max-width: 520px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: white;
+      padding-bottom: 40px;
+    }
+
+    /* HEADER */
+
+    .topbar {
+      background: var(--afds-black);
+      padding: 25px 26px 20px;
+      border-bottom: 5px solid var(--afds-red);
+    }
+
+    .brand {
+      color: white;
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+
+    .subtitle {
+      margin-top: 5px;
+      color: #d1d5db;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+    }
+
+    /* WO HEADER */
+
+    .wo-header {
+      padding: 26px 26px 12px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      gap: 15px;
+    }
+
+    .wo-number {
+      margin: 0;
+      color: var(--afds-black);
+      font-size: 36px;
+      font-weight: 850;
+      letter-spacing: -1px;
+    }
+
+    .wo-label {
+      margin-top: 3px;
+      color: var(--secondary);
+      font-size: 14px;
+    }
+
+    /* STATUS */
+
+    .status-badge {
+      display: inline-block;
+      margin-top: 7px;
+      padding: 8px 12px;
+      border-radius: 999px;
+
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+
+      white-space: nowrap;
+    }
+
+    .status-assigned {
+      background: var(--assigned-bg);
+      color: var(--assigned);
+    }
+
+    .status-progress {
+      background: var(--progress-bg);
+      color: var(--progress);
+    }
+
+    .status-parts {
+      background: var(--parts-bg);
+      color: var(--parts);
+    }
+
+    .status-door {
+      background: var(--door-bg);
+      color: var(--door);
+    }
+
+    .status-completed {
+      background: var(--completed-bg);
+      color: var(--completed);
+    }
+
+    /* CARDS */
+
+    .card {
+      margin: 16px 18px;
+      padding: 20px;
+
+      background: white;
+
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--afds-red);
+
+      border-radius: 11px;
+
+      box-shadow:
+        0 2px 8px rgba(0,0,0,.045);
+    }
+
+    .section-title {
+      margin: 0 0 18px;
+
+      color: var(--afds-black);
+
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: .35px;
+    }
+
+    /* DETAILS */
+
+    .detail-row {
+      display: grid;
+      grid-template-columns: 40% 60%;
+
+      gap: 12px;
+      padding: 9px 0;
+
+      border-bottom: 1px solid #f0f1f3;
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      color: var(--secondary);
+
+      font-size: 11px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    .detail-value {
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    /* PRIORITY */
+
+    .priority {
+      display: inline-block;
+
+      padding: 5px 9px;
+
+      border-radius: 6px;
+
+      background: var(--afds-red-light);
+      color: var(--afds-red-dark);
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    /* DESCRIPTION */
+
+    .description-box {
+      padding: 15px;
+
+      background: #f8f9fa;
+
+      border-left:
+        4px solid var(--afds-red);
+
+      border-radius: 7px;
+
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    /* CURRENT STATUS */
+
+    .current-status {
+      padding: 17px;
+      background: #f8f9fa;
+      border-radius: 9px;
+    }
+
+    .current-status-label {
+      margin-bottom: 6px;
+
+      color: var(--secondary);
+
+      font-size: 10px;
+      font-weight: 800;
+
+      letter-spacing: .6px;
+      text-transform: uppercase;
+    }
+
+    .current-status-value {
+      color: var(--afds-black);
+      font-size: 20px;
+      font-weight: 850;
+    }
+
+    .last-updated {
+      margin-top: 10px;
+      color: var(--secondary);
+      font-size: 12px;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      padding: 10px 20px 25px;
+
+      text-align: center;
+
+      color: #9ca3af;
+      font-size: 10px;
+    }
+
+    /* LOADING / ERROR */
+
+    .loading {
+      padding: 60px 25px;
+
+      text-align: center;
+
+      color: var(--secondary);
+      font-size: 14px;
+    }
+
+    .error {
+      padding: 30px;
+      text-align: center;
+    }
+
+    .error strong {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: var(--afds-red);
+      font-size: 18px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 390px) {
+
+      .brand {
+        font-size: 18px;
+      }
+
+      .wo-number {
+        font-size: 31px;
+      }
+
+      .wo-header {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .detail-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+
+      .card {
+        margin-left: 13px;
+        margin-right: 13px;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+  <!-- HEADER -->
+
+  <header class="topbar">
+
+    <div class="brand">
+      ADVANCED FIRE DOOR SYSTEMS
+    </div>
+
+    <div class="subtitle">
+      WORK ORDER TRACKER
+    </div>
+
+  </header>
+
+
+  <!-- LOADING -->
+
+  <div
+    id="loading"
+    class="loading"
+  >
+    Loading work order...
+  </div>
+
+
+  <!-- CONTENT -->
+
+  <main
+    id="content"
+    style="display:none;"
+  >
+
+    <!-- WO HEADER -->
+
+    <section class="wo-header">
+
+      <div>
+
+        <h1
+          id="wo_number"
+          class="wo-number"
+        ></h1>
+
+        <div class="wo-label">
+          Work Order
+        </div>
+
+      </div>
+
+
+      <div
+        id="status_badge"
+        class="status-badge"
+      ></div>
+
+    </section>
+
+
+    <!-- WORK ORDER INFORMATION -->
+
+    <section class="card">
+
+      <h2 class="section-title">
+        WORK ORDER INFORMATION
+      </h2>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Requester Name
+        </div>
+
+        <div
+          id="requester_name"
+          class="detail-value"
+        ></div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Location
+        </div>
+
+        <div
+          id="location"
+          class="detail-value"
+        ></div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Assigned To
+        </div>
+
+        <div
+          id="assigned_to"
+          class="detail-value"
+        ></div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Date Created
+        </div>
+
+        <div
+          id="date_created"
+          class="detail-value"
+        ></div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Priority
+        </div>
+
+        <div class="detail-value">
+
+          <span
+            id="priority"
+            class="priority"
+          ></span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- DESCRIPTION -->
+
+    <section class="card">
+
+      <h2 class="section-title">
+        DESCRIPTION
+      </h2>
+
+      <div
+        id="description"
+        class="description-box"
+      ></div>
+
+    </section>
+
+
+    <!-- CURRENT STATUS -->
+
+    <section class="card">
+
+      <h2 class="section-title">
+        CURRENT STATUS
+      </h2>
+
+
+      <div class="current-status">
+
+        <div class="current-status-label">
+          Work Order Status
+        </div>
+
+        <div
+          id="current_status"
+          class="current-status-value"
+        ></div>
+
+        <div
+          id="last_updated"
+          class="last-updated"
+        ></div>
+
+      </div>
+
+    </section>
+
+
+    <div class="footer">
+      Advanced Fire Door Systems • Work Order Tracking
+    </div>
+
+  </main>
+
+</div>
+
+
+<script type="module">
+
+import {
+  createClient
+}
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+/* ==========================================
+   SUPABASE CONNECTION
+========================================== */
+
+const SUPABASE_URL =
+  "https://pzqehkljifozdcntkphv.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_r40N0HlOLqupAvlfeqPI-w_HZy81xjM";
+
+
+const supabase =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* ==========================================
+   GET WORK ORDER FROM URL
+========================================== */
+
+let woNumber = "41892";
+
+
+const pathParts =
+  window.location.pathname
+    .split("/")
+    .filter(Boolean);
+
+
+if (pathParts.length > 0) {
+
+  const lastPart =
+    pathParts[
+      pathParts.length - 1
+    ];
+
+
+  if (
+    lastPart &&
+    lastPart !== "index.html"
+  ) {
+
+    woNumber =
+      lastPart
+        .replace(/^WO-/i, "")
+        .trim();
+  }
+}
+
+
+/* ==========================================
+   FORMAT DATE
+========================================== */
+
+function formatDate(value) {
+
+  if (!value) {
+    return "-";
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+
+    return value;
+  }
+
+
+  return date.toLocaleString(
+    "en-US",
+    {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit"
+    }
+  );
+}
+
+
+/* ==========================================
+   STATUS CLASS
+========================================== */
+
+function getStatusClass(status) {
+
+  const value =
+    (status || "")
+      .toLowerCase();
+
+
+  if (
+    value.includes("completed")
+  ) {
+    return "status-completed";
+  }
+
+
+  if (
+    value.includes("parts")
+  ) {
+    return "status-parts";
+  }
+
+
+  if (
+    value.includes("door")
+  ) {
+    return "status-door";
+  }
+
+
+  if (
+    value.includes("progress")
+  ) {
+    return "status-progress";
+  }
+
+
+  return "status-assigned";
+}
+
+
+/* ==========================================
+   LOAD WORK ORDER
+========================================== */
+
+async function loadWorkOrder() {
+
+  const {
+    data: workOrder,
+    error
+  } =
+
+    await supabase
+
+      .from("work_orders")
+
+      .select("*")
+
+      .eq(
+        "wo_number",
+        woNumber
+      )
+
+      .maybeSingle();
+
+
+  /* ERROR */
+
+  if (error) {
+
+    document
+      .getElementById("loading")
+      .innerHTML =
+      `
+        <div class="error">
+
+          <strong>
+            Error Loading Work Order
+          </strong>
+
+          ${error.message}
+
+        </div>
+      `;
+
+    return;
+  }
+
+
+  /* NOT FOUND */
+
+  if (!workOrder) {
+
+    document
+      .getElementById("loading")
+      .innerHTML =
+      `
+        <div class="error">
+
+          <strong>
+            Work Order Not Found
+          </strong>
+
+          WO #${woNumber}
+
+        </div>
+      `;
+
+    return;
+  }
+
+
+  /* STATUS */
+
+  const status =
+    workOrder.status ||
+    "Assigned";
+
+
+  /* WO NUMBER */
+
+  document
+    .getElementById("wo_number")
+    .textContent =
+      "WO #" +
+      workOrder.wo_number;
+
+
+  /* STATUS BADGE */
+
+  const statusBadge =
+    document
+      .getElementById(
+        "status_badge"
+      );
+
+
+  statusBadge.textContent =
+    status;
+
+
+  statusBadge.className =
+    "status-badge " +
+    getStatusClass(status);
+
+
+  /* REQUESTER */
+
+  document
+    .getElementById(
+      "requester_name"
+    )
+    .textContent =
+      workOrder.requester_name ||
+      "-";
+
+
+  /* LOCATION */
+
+  document
+    .getElementById(
+      "location"
+    )
+    .textContent =
+      workOrder.location ||
+      "-";
+
+
+  /* ASSIGNED TO */
+
+  document
+    .getElementById(
+      "assigned_to"
+    )
+    .textContent =
+      workOrder.assigned_to ||
+      "-";
+
+
+  /* DATE CREATED */
+
+  document
+    .getElementById(
+      "date_created"
+    )
+    .textContent =
+      formatDate(
+        workOrder.date_created
+      );
+
+
+  /* PRIORITY */
+
+  document
+    .getElementById(
+      "priority"
+    )
+    .textContent =
+      workOrder.priority ||
+      "-";
+
+
+  /* DESCRIPTION */
+
+  document
+    .getElementById(
+      "description"
+    )
+    .textContent =
+      workOrder.description ||
+      "-";
+
+
+  /* CURRENT STATUS */
+
+  document
+    .getElementById(
+      "current_status"
+    )
+    .textContent =
+      status;
+
+
+  /* LAST UPDATED */
+
+  document
+    .getElementById(
+      "last_updated"
+    )
+    .textContent =
+      "Last updated: " +
+      formatDate(
+        workOrder.last_updated
+      );
+
+
+  /* SHOW PAGE */
+
+  document
+    .getElementById(
+      "loading"
+    )
+    .style.display =
+      "none";
+
+
+  document
+    .getElementById(
+      "content"
+    )
+    .style.display =
+      "block";
+}
+
+
+/* START */
+
+loadWorkOrder();
+
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
